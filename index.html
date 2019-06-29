@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Bilinguals World</title>
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="shortcut icon" type="image/x-icon" href="./images/favicon.png" />
+	<meta name="viewport" content="width=device-width , initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:700&display=swap" rel="stylesheet">
+    <style>
+    	body {
+    		font-family: 'M PLUS Rounded 1c', sans-serif;
+    	}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<header>
+		<div class="logo">
+				<a href="index.html"><img src="./images/logo_mobile.png" alt="Logo"></a>
+		</div>
+		<div class="login-button">
+			<button class="open-login"><h2>Login</h2></button>
+			<button class="close-login"><img src="./images/close-login.svg" alt="close"></button>
+		</div>
+	</header>
+	<div class="login-section">
+			<form>
+				<div class="email-section">
+					<h4>email</h4>
+					<input type="email">
+				</div>
+				<div class="username-section">
+					<h4>username</h4>
+					<input type="text">
+				</div>
+				<div class="password-section">
+					<h4>password</h4>
+					<input type="password">
+				</div>
+				<div class="password-section-2">
+					<h4>confirm password</h4>
+					<input type="password">
+				</div>
+				<div class="bottom-section">
+					<button type="button" id="goto-login">Registered?</button>
+					<button type="button" id="goto-register">First time here?</button>
+					<input type="submit" value="LOGIN">
+					<input type="submit" value="REGISTER">
+					<button id="forgot">Forgot password?</button>
+				</div>
+			</form>
+	</div>
+	<div class="ghost-content"></div>
+	<div class="flag">
+			<h2>BILINGUALS WORLD</h2>
+	</div>
+	<div class="ghost-header"></div>
+
+	<content>
+		
+			
+		<div class="posts">
+
+
+			<div class="multi" id="four-choice">
+				<div class="question">
+					<h4>Which one is a synonym for 'yes'? --This is a extension for question to test longer questions.--</h4>
+				</div>
+				<div class="side-bar">
+					<button id="up">
+						<img src="./images/up-arrow.png" alt="Up">
+						<h5>15</h5>
+					</button>
+					<button id="down">
+						<h5>8</h5>
+						<img src="./images/down-arrow.png" alt="Down">
+					</button>
+				</div>
+				<div class="answers">
+					<button class="answer" id="first"><p>By all means</p></button>
+					<button class="answer" id="second"><p>Inclusive</p></button>
+					<button class="answer" id="third"><p>Contrivance</p></button>
+					<button class="answer" id="fourth"><p>Recapitulate</p></button>
+				</div>
+				<div class="bottom-bar">
+					<button><h5>Advanced</h5></button>
+					<button><h5>Discussion</h5></button>
+					<button class="user-profile">
+						<h5>UserName</h5>
+						<img src="./images/avatar.png" alt="User Picture">
+					</button>
+				</div>
+			</div>
+
+			<div class="multi" id="two-choice">
+				<div class="question">
+					<h4>Are you a bilingual?</h4>
+				</div>
+				<div class="side-bar">
+						<button id="up">
+							<img src="./images/up-arrow.png" alt="Up">
+							<h5>3</h5>
+						</button>
+						<button id="down">
+							<h5>17</h5>
+							<img src="./images/down-arrow.png" alt="Down">
+						</button>
+				</div>
+				<div class="answers">
+					<button class="answer" id="first"><p>By all means</p></button>
+					<button class="answer" id="second"><p>Contrivance</p></button>
+				</div>
+				<div class="bottom-bar">
+						<button><h5>Advanced</h5></button>
+						<button><h5>Discussion</h5></button>
+						<button class="user-profile">
+							<h5>UserName</h5>
+							<img src="./images/avatar.png" alt="User Picture">
+						</button>
+					</div>
+			</div>
+
+
+			<div class="multi">
+				<div class="audio-question">
+					<a href="files/ele actual b1.pdf" download="ele actual b1">
+						<h3>Ele Actual B1 pdf</h3>
+					</a>		
+					<a href="files/ele actual b1 audios.zip" download="ele actual b1 audios">
+						<h3>Ele Actual B1 audios</h3>
+					</a>	
+				</div>
+				<div class="side-bar">
+						<button id="up">
+							<img src="./images/up-arrow.png" alt="Up">
+							<h5>27</h5>
+						</button>
+						<button id="down">
+							<h5>5</h5>
+							<img src="./images/down-arrow.png" alt="Down">
+						</button>
+				</div>
+				<div class="bottom-bar">
+					<button><h5>Advanced</h5></button>
+					<button><h5>Answers</h5></button>
+					<button class="user-profile">
+						<h5>UserName</h5>
+						<img src="./images/avatar.png" alt="User Picture">
+					</button>
+				</div>
+			</div>
+
+			<div class="audio">
+				<div class="audio-question">
+					<audio controls>
+						<source src="track.ogg" type="audio/ogg" />
+						<source src="./audios/test.mp3" type="audio/mpeg">
+						Your browser does not support the audio element.
+					</audio>
+						<div class="question-definition">
+							<p>This is a definition for question.</p>
+						</div>			
+				</div>
+				<div class="side-bar">
+						<button id="up">
+							<img src="./images/up-arrow.png" alt="Up">
+							<h5>27</h5>
+						</button>
+						<button id="down">
+							<h5>5</h5>
+							<img src="./images/down-arrow.png" alt="Down">
+						</button>
+				</div>
+				<form id="answer">
+					<input class="answer-box" type="text">
+					<button type="submit" target="_self" class="send-button"><img src="./images/send-button.png" alt="Send answer"></button>
+				</form>
+				
+				<div class="bottom-bar">
+					<button><h5>Advanced</h5></button>
+					<button><h5>Answers</h5></button>
+					<button class="user-profile">
+						<h5>UserName</h5>
+						<img src="./images/avatar.png" alt="User Picture">
+					</button>
+				</div>
+			</div>
+		</div>
+
+	</content>
+<!-- comment
+
+ -->
+	
+<script type="text/javascript" src="./js/login.js"></script>
+</body>
+
+</html>
