@@ -6,97 +6,108 @@
 	<title>Bilinguals World</title>
 	<link rel="stylesheet" href="css/new-question.css">
 	<link rel="shortcut icon" type="image/x-icon" href="./images/favicon.png" />
-	<meta name="viewport" content="width=device-width , initial-scale=1">
-	<link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:700&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, height= device-height , initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <style>
     	body {
-    		font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-family: 'Nunito', sans-serif;
     	}
     </style>
 </head>
 
 <body>
-	<header>
-		<div class="logo">
-				<a href="index.html"><img src="./images/logo_mobile.png" alt="Logo"></a>
-		</div>
+    <header>
+		<a id="logo" href="index.html"><img src="./images/bilinguals world.svg" alt="Logo"></a>
+		<button id="menu"><img src="./images/menu button.svg" alt="menu"></button>
+    </header>
 
-		<div class="motto">
-			<h2>BILINGUALS WORLD</h2>
-		</div>
-
-		<div class="login">
-			<button onclick="window.location.href = './new-question.html';"><h2>Login</h2></button>
-		</div>
-	</header>
-
-	<div class="flag">
-			<h2>BILINGUALS WORLD</h2>
-		</div>
-	<div class="ghost-header"></div>
-
+    <div class="menu-section">
+        <ul>
+            <li><a href="">About</a></li>
+            <li><hr/></li>
+            <li><a href="" disabled>Statistics</a></li>
+            <li><hr/></li>
+            <li><a href="">Feedback</a></li>
+            <li><hr/></li>
+            <li><a href="index.html">Logout</a></li>
+        </ul>
+	</div>
+	
 	<content>
 		<div class="posts">
-
-            <form class="new">
-				<div class="top-bar">
-                    <button class="text" type="radio" >
-						<div id="selected"><h4>Text</h4></div>
+            <form class="post">
+				<div class="bar top-bar">
+                    <button class="text" type="radio">
+						<h3>Text</h3>
+						<img src="./images/create-question-text.png" alt="text question">
                     </button>
                     <button class="audio" type="radio">
-						<div id="selected"><h4>Audio</h4></div>
-                    
+						<h3>Audio</h3>
+						<img src="./images/create-question-audio.png" alt="audio question">
                     </button>
                     <button class="image" type="radio">
-						<div id="selected"><h4>Image</h4></div>
+						<h3>Image</h3>
+						<img src="./images/create-question-image.png" alt="image question">
                     </button>
                 </div>
                 <div class="question">
-					<input type="text" id="text-question">
+					<input type="text" class="text">
 					<input type="file" id="audioFile" style="display: none;" accept="audio/*"/>
-					<input type="button" id="audio-question" value="Browse Audio" onclick="document.getElementById('audioFile').click();" />
+					<input type="button" class="audio" value="Browse Audio" onclick="document.getElementById('audioFile').click();" />
 					<input type="file" id="imageFile" style="display: none;" accept="image/*"/>
-					<input type="button" id="image-question" value="Browse Image" onclick="document.getElementById('imageFile').click();" />
+					<input type="button" class="image" value="Browse Image" onclick="document.getElementById('imageFile').click();" />
                 </div>
-                <div class="middle-bar">
-					<button class="type">
-						<div id="selected"><h4>Type In</h4></div>
+                <div class="bar middle-bar">
+					<button class="type selected" type="radio">
+						<h3>Type</h3>
+						<img src="./images/create-question-type.png" alt="type answer">
 					</button>
-					<button class="two-choice">
-						<div id="selected"><h4>Two Choice</h4></div>
+					<button class="two-choice" type="radio">
+						<h3>Two Choice</h3>
+						<img src="./images/create-question-multi-2.png" alt="two choice">
 					</button>
-					<button class="four-choice">
-						<div id="selected"><h4>Four Choice</h4></div>
+					<button class="four-choice" type="radio">
+						<h3>Four Choice</h3>
+						<img src="./images/create-question-multi-4.png" alt="four choice">
 					</button>
-					<button class="checkboxes">
-							<div id="selected"><h4>Checkboxes</h4></div>
+					<button class="checkboxes" type="radio" disabled>
+						<h3>Checkboxes</h3>
+						<img src="./images/create-question-checkboxes.png" alt="checkboxes">
 					</button>            
                 </div>
                 <div class="answer">
-					<div id="type-answer">
-						<input type="text">
-					</div>
-					<div id="two-choice-answer">
+					<input class="type" type="text" disabled>
+					<div class="two-choice">
 						<input  type="text">
 						<input type="text">
 					</div>
-					<div id="four-choice-answer">
+					<div class="four-choice">
 						<input type="text">
 						<input type="text">
 						<input type="text">
 						<input type="text">
 					</div>
-					<div id="checkboxes-answer">
+					<div class="checkboxes">
 						<input type="text">
 					</div>
                 </div>
-                <button type="submit" id="submit"><h3>Submit</h3></button>
+                <button type="submit"><h3>Submit</h3></button>
 			</form>
 
 		</div>
 	</content>
 
+	<footer>
+        <button disabled><img src="./images/filter.svg" alt="filter"></button>
+        <a href="feed.html"><img src="./images/home.svg" alt="home"></a>
+        <a href="profile.html"><img src="./images/Profile.svg" alt="profile"></a>
+    </footer>
+
+	<script type="text/javascript" src="./js/menu.js"></script>
 	<script src="./js/newQuestion.js"></script>
+	
+
 </body>
 
 </html>

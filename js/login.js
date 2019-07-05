@@ -37,14 +37,14 @@ $(document).ready(function(){
         $(".username-section").slideUp(200);
         $(".password-section-2").slideUp(200);
         $("#goto-login").fadeOut(0);
-        $("#goto-register").fadeIn(   0);
+        $("#goto-register").fadeIn(0);
         $("#forgot").fadeIn(0);
         $(".bottom-section input[value=LOGIN]").fadeIn(0);
         $(".bottom-section input[value=REGISTER]").fadeOut(0);
     });
 
     $('.login-section input[type=submit]').click(function() {
-        window.location='new-question.html';
+        window.location='feed.html';
         return false;
       });
 });
