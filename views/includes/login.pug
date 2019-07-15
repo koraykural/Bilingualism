@@ -1,0 +1,22 @@
+form.login-section(method="POST" action="/login")
+    .email
+        h4 email
+        input(type="email" name="email")
+    .username
+        h4 username
+        input(type="text" name="username")
+    .password
+        h4 password
+        input(type="password" name="password")
+    .password-confirm
+        h4 confirm password
+        input(type="password" name="confpassword")
+    .bottom
+        button.goto-login
+            |Registered?
+        button.goto-register
+            |First time here?
+        input(type="submit" name="login" value="LOGIN" formaction="/login")
+        input(type="submit" name="register" value="REGISTER" formaction="/register")
+        button.forgot
+            |Forgot password?

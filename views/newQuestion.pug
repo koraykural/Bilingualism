@@ -1,0 +1,52 @@
+doctype html
+html(lang=en)
+  include includes/head
+  body
+    include includes/header-menu
+    include includes/menu
+    content
+      form.post
+        .bar.top-bar
+          button.text(type="radio")
+            h3 Text
+            img(src="./public/images/create-question-text.png", alt="Text Question")
+          button.audio(type="radio")
+            h3 Audio
+            img(src="./public/images/create-question-audio.png", alt="Audio Question")
+          button.image(type="radio")
+            h3 Image
+            img(src="./public/images/create-question-image.png", alt="Image Question")
+        .question
+          input.text(type="text")
+          input(type="file" id="audioFile" style="display: none;" accept="audio/*")
+          input(type="button" class="audio" value="Browse Audio" onclick="document.getElementById('audioFile').click();")
+          input(type="file" id="imageFile" style="display: none;" accept="image/*")
+          input(type="button" class="image" value="Browse Image" onclick="document.getElementById('imageFile').click();")
+        .bar.middle-bar
+          button.type
+            h3 Type
+            img(src="./public/images/create-question-type.png", alt="Type Answer")
+          button.two-choice
+            h3 Two Choice
+            img(src="./public/images/create-question-multi-2.png", alt="Two Choice Answer")
+          button.four-choice
+            h3 Four Choice
+            img(src="./public/images/create-question-multi-4.png", alt="Four Choice Answer")
+          button.checkboxes
+            h3 Checkboxes
+            img(src="./public/images/create-question-checkboxes.png", alt="Checkboxes")
+        .answer
+          input.type(type="text" disabled)
+          .two-choice
+            input(type="text")
+            input(type="text")
+          .four-choice
+            input(type="text")
+            input(type="text")
+            input(type="text")
+            input(type="text")
+          .checkboxes
+            input(type="text")
+        button(type="submit")
+          h3 Submit
+    include includes/footerAtNew

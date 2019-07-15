@@ -1,0 +1,336 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  grid-gap: 0px;
+}
+body {
+  background-color: #f4f4f4 ;
+  font-family: 'Nunito', sans-serif;
+}
+button  {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  /* Remove blue overlay ond android*/
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+input {
+  border: none;
+  outline: none;
+}
+ul {
+  list-style-type: none;
+  text-align: center;
+}
+a {
+  text-decoration: none;
+  color: #5c5c5c;
+}
+a[disabled] {
+  pointer-events: none;
+  opacity: 0.4;
+}
+button[disabled] {
+  pointer-events: none;
+  opacity: 0.3;
+}
+hr {
+  border: none;
+  height: 1px;
+  background: #5c5c5c;
+  border-radius: 1px;
+}
+
+
+
+
+@media screen and (max-width: 500px) /* Mobile */ {
+  header {
+    position: fixed;
+    height: 9.375vh;
+    z-index: 10;
+    width: 100%;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3); 
+    padding: 0.78vh 1.56vh;
+    background: white;
+  }
+  #logo img {
+    width: 55vw;
+    margin: 2.0325vh 0; 
+  }
+  .menu { 
+    height: 3.125vh;
+    float: right;
+    margin: 2.345vh 1.56vh; 
+  }
+  .menu img {
+    height: 3.125vh;
+  }
+  .menu-section {
+    z-index: 9;
+    position: fixed;
+    height: fit-content;
+    width: 36.111vw;
+    right: 0;
+    top: 9.375vh;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.3); 
+    background: white;
+    border-radius: 0 0 2.34375vh 2.34375vh;
+    padding: 0 5.555vw;
+    display: none;
+  }
+  .menu-section li:nth-child(odd) {
+    color: #5c5c5c;
+    font-size: 0.8em;
+    padding: 1.63vh 0;
+  }
+  .login {
+    float: right;
+    margin: 1.41vh 0;
+    height: 70%;
+    width: 24%;
+    background: #567BF5;
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+  }
+  .login img {
+    display: none;
+    height: 45%;
+  }
+  .login-section {
+    position: fixed;
+    background: white;
+    border-radius: 0 0 20px 20px;
+    z-index: 5;
+    height: fit-content;
+    width: 88vw;
+    top: 9.375vh;
+    left: 6vw;
+    padding: 0 5.56vw;
+    text-align: center;
+    display: none;
+    overflow-y: scroll;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+  }
+  .login-section > * {
+    height: fit-content;
+    width: 100%;
+  }
+  .login-section h4 {
+    color: #333333;
+    margin: 6px 0;
+  }
+  .login-section input {
+    background: #D0F8FE;
+    width: 100%;
+    border-radius: 15px;
+    padding: 5px 25px;
+  }
+  .bottom {
+    display: grid;
+    grid-template-columns: 9fr 10fr 9fr;
+    padding: 5px 0 5px 0;
+  }
+  .bottom button {
+    color: #5c5c5c;
+    font-size: 10px;
+  }
+  .goto-register,.goto-login {
+    margin-right: 5px;
+    grid-column: 1 / 2;
+  }
+  .forgot {
+      margin-left: 5px;
+      grid-column: 3 / 4;
+  }
+  .bottom input {
+    grid-column: 2 / 3;
+    background: #567BF5;
+    border-radius: 10px;
+    padding: 0 10px;
+    height: 30px;
+    width: 100%;
+    color: white;
+    font-size: 1em;
+  }
+  .login-section input:focus {
+    box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);	
+  }
+  .username,.password-confirm,.goto-login,input[value=REGISTER] {
+    display: none;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    height: 7.8125vh;
+    z-index: 10;
+    width: 100%;
+    box-shadow: 0px -1px 2px 0px rgba(0,0,0,0.2); 
+    padding: 0 10vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: white;
+  }
+  footer img {
+    display: block;
+    height: 3.90625vh;
+  }
+
+  content {
+    height: 100vh;
+    min-height: fit-content;
+    margin: 0 auto;
+    width: 94.4444vw;
+    padding-top: 9.375vh;
+    background: #D0F8FE;
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+/* 
+
+
+  */
+  
+  .post {
+    height: fit-content;
+    width: 88vw;
+    margin: 2.5vh auto;
+    background: white;
+    border-radius: 5vh;
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.2);
+    padding: 0.78vh 2.78vw;
+  }
+
+  /* CSS For New Question Section */
+  .bar {
+    max-width: 100%;
+    overflow: scroll;
+    height: 50px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: left;
+    align-items: center;
+  }
+  .bar img{
+    height: 45px;
+  }
+  .bar h3 {
+    font-size: 0;
+    margin: 0;
+    opacity: 0;
+  }
+  .bar button {
+    height: 45px;
+    width: fit-content;
+    background: #D0F8FE;
+    border-radius: 5vh;
+    margin-right: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  button:disabled.selected{
+    pointer-events: none;
+    opacity: 1;
+    color: #5c5c5c;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.2); 
+  }
+
+  .question {
+    width: 100%;
+    min-height: 30px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: min-height 0.3s linear;
+  }
+  .question > * {
+    display: none;
+  }
+  .question input[type=text] {
+    background: #D0F8FE;
+    width: 90%;
+    border-radius: 10vw;
+    padding: 10px 20px;
+    margin: 10px auto;
+    font-size: 1em;
+  }
+  .question input[type=button] {
+    background: #567BF5;
+    color: white;
+    border-radius: 5vw;
+    font-size: 0.8em;
+    padding: 10px 20px;
+    margin: 10px auto;
+  }
+
+
+  .answer {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: min-height 0.4s linear;
+  }
+  .answer > * {
+    display: none;
+  }
+  .answer input {
+    background: #D0F8FE;
+    border-radius: 5vw;
+    padding: 5px 20px;
+    margin: 10px auto 5px auto;
+    font-size: 1em;
+  }
+  .answer .type{
+    width: fit-content;
+    padding: 10px 20px;
+  }
+  .answer .four-choice {
+    flex-flow: row wrap;
+    align-items: center;
+  }
+  .answer .four-choice input{
+    min-width: 45%;
+    width: fit-content;
+  }
+  .answer .two-choice {
+    flex-flow: row wrap;
+    align-items: center;
+  }
+  .answer .two-choice input{
+    min-width: 50px;
+  }
+  .answer .checkboxes {
+    flex-flow: column nowrap;
+    align-items: center;
+  }
+  .answer .checkboxes input {
+    width: fit-content;
+  }
+  button[type=submit] {
+    display: block;
+    background: #567BF5;
+    color: white;
+    min-width: 25vw;
+    height: 40px;
+    border-radius: 5vh;
+    margin: 5px auto;
+    font-size: 0.8em;
+  }
+
+
+}

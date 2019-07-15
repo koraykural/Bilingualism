@@ -1,0 +1,29 @@
+{
+  "name": "bilingualism",
+  "version": "1.0.0",
+  "description": "Bilingualism Project",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koraykural/BilingualsWorld.git"
+  },
+  "author": "Koray Kural",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/koraykural/BilingualsWorld/issues"
+  },
+  "homepage": "https://github.com/koraykural/BilingualsWorld#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.11.0",
+    "pug": "^2.0.4"
+  }
+}
