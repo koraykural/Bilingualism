@@ -1,7 +1,7 @@
 // IMPORTS
 const validator = require("email-validator");
 const bcrypt = require('bcrypt');
-
+const saltRounds = 10; // Seed for bcrypt
 // Connect to DataBase
 const { Pool, Client } = require('pg');
 const connectionString = 'postgresql://postgres:KoraY*123@localhost:5432/bilingualism';
@@ -15,130 +15,166 @@ const pool = new Pool({
 // Functions to export
 // User parameter is an object {email, username, password, confpassword}
 module.exports = {
+
   register: function(user) {
     return new Promise((resolve, reject) => {
+
       let response = {
-        success: false,
-        msg: ''
+        msg: '',
+        ID: ''
       };
-      setTimeout(() => {
-        if(user.username == 'Koray') {
-          response.success = true;
-          response.msg = 'DONE';
-          resolve(response);
-        }
-        else {
-          response.success = false;
-          response.msg = 'ERROR';
-          reject(response);
-        }
-      }, 2000);
-    })
-    
-  },
 
+      // Check if email is valid
+      if(!validator.validate(user.email) || user.email.lenght > 100) {
+        response.msg = 'Invalid email';
+        reject(response);
+        return;
+      }
+  
+      // Check if password is valid (longer than 5 chars)
+      if(user.password.length < 6) {
+        response.msg = 'Password needs to be 6 or more characthers';
+        reject(response);
+        return;
+      }
+  
+      // Check if username is not so long
+      if(user.username.lenght > 19) {
+        response.msg = "Username should be shorter";
+        reject(response);
+        return;
+      }
+  
+      // Check if password and confpassword match
+      if(user.password != user.confpassword) {
+        response.msg = "Passwords don't match";
+        reject(response);
+        return;
+      }
+  
+      // Check if email is unique
+      pool.query('SELECT COUNT(1) FROM users WHERE email = $1' ,[user.email], (err, res) => {
 
-  /*function(user, response) {
-    console.log('Registeration request taken');
-    setTimeout(function(response){
-      response.msg = 'DONE'; 
-    },2000)
-    
-    // Check if email is valid
-    if(!validator.validate(user.email) || user.email.lenght > 100) {
-      response.success = false;
-      response.msg = 'Invalid email';
-      return;
-    }
-
-    // Check if password is valid (longer than 5 chars)
-    if(user.password.length < 6) {
-      response.success = false;
-      response.msg = 'Password needs to be 6 or more characthers';
-      return;
-    }
-
-    // Check if username is not so long
-    if(user.username.lenght > 19) {
-      response.success = false;
-      response.msg = "Username should be shorter";
-      return;
-    }
-
-    // Check if password and confpassword match
-    if(user.password != user.confpassword) {
-      response.success = false;
-      response.msg = "Passwords don't match";
-      return;
-    }
-
-    // Check if email is unique
-    pool.query('SELECT COUNT(1) FROM users WHERE email = $1' ,[user.email], (err, res) => {
-    console.log("Checking DataBase to see if email already exist...");
-    // Error on DataBase
-    if (err) {
-      response.success = false;
-      console.log(err.stack);
-      response.msg = "DataBase error on uniqueness check";
-    }
-    // Email is not unique
-    else if(res.rows[0].count === '1' ) {
-      response.success = false;
-      response.msg =  "Email is already in use"; 
-      return;
-    }
-    // Email is unique. So check username
-    else {
-      // Check if username is unique
-      pool.query('SELECT COUNT(1) FROM users WHERE username = $1', [user.username], (err, res) => {
-        console.log("Checking DataBase to see if username already exist...");
-        // Error on DataBase
+        // Database error
         if (err) {
-          response.success = false;
-          console.log(err.stack);
-          response.msg =  "DataBase error on uniqueness check";
+          console.log(err);
+          response.msg = "DataBase error on uniqueness check";
+          reject(response);
+          return;
         }
-        // Username is not unique
-        else if(res.rows[0].count === '1' ) {
-          response.success = false;
-          response.msg = "Username is already in use";
-        }
-        // Both unique
-        else {
-          response.msg = 'UNIQUE';
-          const now = new Date();
 
-          console.log("Inserting to DB");
-          // INSERT INTO users
-          pool.query('INSERT INTO users (email, username, password, register_time) VALUES($1, $2, $3, $4)'
-          , [user.email, user.username, user.password, now], (err, res) => {
-            // Error on database - Failed to INSERT 
+        // Email is not unique
+        else if(res.rows[0].count === '1' ) {
+          response.msg =  "Email is already in use"; 
+          reject(response);
+          return;
+        }
+
+        // Email is unique. So check username
+        else {
+          // Check if username is unique
+          pool.query('SELECT COUNT(1) FROM users WHERE username = $1', [user.username], (err, res) => {
+
+            // Database error
             if (err) {
-              console.log(err.stack);
-              response.success = false;
-              response.msg = "Can't INSERT to DataBase now";
+              console.log(err);
+              response.msg =  "DataBase error on uniqueness check";
+              reject(response);
+              return;
             }
-            // User registered. "DONE" keyword to check in main function
+
+            // Username is not unique
+            else if(res.rows[0].count === '1' ) {
+              response.msg = "Username is already in use";
+              reject(response);
+              return;
+            }
+
+            // Both unique
             else {
-              response.success = true;
-              response.msg = "DONE";
+
+              // Get date to save to DB
+              const now = new Date();
+
+              // Hash password
+              bcrypt.hash(user.password, saltRounds, function(err, hash) {
+
+                // INSERT INTO users
+                pool.query('INSERT INTO users (email, username, password, register_time) VALUES($1, $2, $3, $4)'
+                  , [user.email, user.username, hash, now], (err, res) => {
+
+                  // Database error - Failed to INSERT 
+                  if (err) {
+                    console.log(err);
+                    response.msg = "Can't INSERT to DataBase now";
+                    reject(response);
+                    return;
+                  }
+
+                  // User registered. "DONE" keyword to check in main function
+                  else {
+                    pool.query('SELECT id FROM users WHERE username = $1', [user.username], (err, res) => {
+                      response.ID = res.rows[0].id;
+                    });
+                    response.msg = "DONE";
+                    resolve(response);
+                    return;
+                  }
+                });
+              });    
             }
           });
         }
       });
-    }
-  });
+    })
   },
-  */
+
 
   login: function(user) {
-    console.log('Log in request taken');
-    console.log('This is the email taken: ' + user.email);
-    console.log('This is the password taken:' + user.password);
+    return new Promise ((resolve, reject) => {
+
+      let response = {
+        msg: '',
+        ID: '0'
+      };
+
+      pool.query('SELECT password FROM users WHERE username = $1'
+        , [user.username], (err, res) => {
+
+        // Database error
+        if(err) {
+          console.log(err)
+          response.msg = 'Failed to login, please try again later';
+          reject(response);
+          return;
+        }
+
+        // No matching username
+        else if(res.rows == 0) {
+          response.msg = 'User not found';
+          reject(response);
+          return;
+        }
+
+        // User found password returned as res.rows[0].password
+        else {
+          // res == true if password is correct
+          bcrypt.compare(user.password, res.rows[0].password, function(err, res) {
+            if(res) {
+              pool.query('SELECT id FROM users WHERE username = $1', [user.username], (err, res) => {
+                response.ID = res.rows[0].id;
+                resolve(response);
+                return;
+              });
+            }
+            else {
+              response.msg = 'Wrong password';
+              reject(response);
+              return;
+            }
+        });
+        }
+      });
+    })
   }
 };
-
-
-// Add bcrypt before insert
-// Learn async and callback YOU CANT RETURN
-// Add css so you can add error to html

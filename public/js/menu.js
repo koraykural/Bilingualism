@@ -21,11 +21,14 @@ $(document).ready(function(){
         }
     });
     // Execute this when anywhere is clicked -EXCEPT MENU AND ITS BUTTON- (Close menu)
-    $(document).mouseup(function (e) {
-        if (!$(".menu-section").is(e.target) && $(".menu-section").has(e.target).length === 0
-        && !$(".menu").is(e.target) && $(".menu").has(e.target).length === 0) {
-            $(".menu-section").slideUp(200);
-            isMenuOpen = false;
-        }
-    });
+    if(window.innerWidth < 1024) {
+        $(document).mouseup(function (e) {
+            if (!$(".menu-section").is(e.target) && $(".menu-section").has(e.target).length === 0
+            && !$(".menu").is(e.target) && $(".menu").has(e.target).length === 0) {
+                $(".menu-section").slideUp(200);
+                isMenuOpen = false;
+            }
+        });
+    }
+    
 });

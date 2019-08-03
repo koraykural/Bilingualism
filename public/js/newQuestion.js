@@ -1,30 +1,32 @@
 // Save class of selected buttons in a variable
 // Default selected => (top-bar -> TEXT), (middle-bar -> TYPE)
-let classOFSelectedTop = 'text';
-let classOFSelectedBottom = 'type';
+let classOfSelectedTop = 'text';
+let classOfSelectedBottom = 'type';
 $(document).ready(function(){
-    $(".top-bar ." + classOFSelectedTop).addClass('selected');
-    $(".middle-bar ." + classOFSelectedBottom).addClass('selected');
+    $(".top-bar ." + classOfSelectedTop).addClass('selected');
+    $(".middle-bar ." + classOfSelectedBottom).addClass('selected');
     // Disable selected button
     $(".bar .selected").attr('disabled', true);
     // Hide image for selected
     $(".bar .selected").children('img').animate({
         height: '0',
+        width: '0',
         opacity: '0'
-    });
-    // Show text for selected
-    $(".bar .selected").children('h3').animate({
-        margin: 'auto 5vw',
-        fontSize: '1em',
-        opacity: '1'
     });
     // Set min width in case text is short
     $(".bar .selected").animate({
-        minWidth: '22vw'
+        minWidth: '140px'
     });
+    // Show text for selected
+    $(".bar .selected").children('h3').animate({
+        margin: 'auto 20px',
+        fontSize: '1em',
+        opacity: '1'
+    });
+
     // Show corresponding input areas for selections
-    $("." + classOFSelectedTop).slideDown(400);
-    $("." + classOFSelectedBottom).slideDown(400);
+    $("." + classOfSelectedTop).slideDown(400);
+    $("." + classOfSelectedBottom).slideDown(400);
     $(".answer .selected").css('display', 'flex');
     // This function sets min-height to current height to make height changes
     // more smoothly (Also see CSS transition min-height at .answer and .question)
@@ -42,10 +44,11 @@ $(document).ready(function(){
         $(".question").css('min-height', '55px');
         // Hide text of old selection and show its image
         $(".top-bar .selected").animate({
-            minWidth: '0'
+            minWidth: '45px'
         });     
         $(".top-bar .selected").children('img').animate({
             height: '45px',
+            width: '45px',
             opacity: '1'
         });
         $(".top-bar .selected").children('h3').animate({
@@ -55,14 +58,15 @@ $(document).ready(function(){
         });
         // Hide image of new selection and show its text
         $(e.currentTarget).animate({
-            minWidth: '22vw'
+            minWidth: '140px'
         });
         $(e.currentTarget).children('img').animate({
             height: '0',
+            width: '0',
             opacity: '0'
         });
         $(e.currentTarget).children('h3').animate({
-            margin: 'auto 5vw',
+            margin: 'auto 20px',
             fontSize: '1em',
             opacity: '1'
         });
@@ -71,11 +75,11 @@ $(document).ready(function(){
             $(".question").css('min-height', $(".question").css('height'));
         }, 400);
         // Hide input area of old selection (Should occur immediatily)
-        $(".question ." + classOFSelectedTop).slideUp(0);
+        $(".question ." + classOfSelectedTop).slideUp(0);
         // Save class name of new selection
-        classOFSelectedTop =  $(e.currentTarget).attr('class');
+        classOfSelectedTop =  $(e.currentTarget).attr('class');
         // Show input area of new selection
-        $(".question ." + classOFSelectedTop).slideDown(400);
+        $(".question ." + classOfSelectedTop).slideDown(400);
         // Remove class 'selected' from the old selection
         $(".top-bar .selected").removeClass('selected');
         // Add class 'selected' to new selection
@@ -93,10 +97,11 @@ $(document).ready(function(){
         $(".answer").css('min-height', '50px');
         // Hide text of old selection and show its image
         $(".middle-bar .selected").animate({
-            minWidth: '0'
+            minWidth: '45px'
         });   
         $(".middle-bar .selected").children('img').animate({
             height: '45px',
+            width: '45px',
             opacity: '1'
         });
         $(".middle-bar .selected").children('h3').animate({
@@ -106,14 +111,15 @@ $(document).ready(function(){
         });
         // Hide image of new selection and show its text
         $(e.currentTarget).animate({
-            minWidth: '22vw'
+            minWidth: '140px'
         });
         $(e.currentTarget).children('img').animate({
             height: '0',
+            width: '0',
             opacity: '0'
         });
         $(e.currentTarget).children('h3').animate({
-            margin: 'auto 5vw',
+            margin: 'auto 20px',
             fontSize: '1em',
             opacity: '1'
         });
@@ -122,12 +128,12 @@ $(document).ready(function(){
             $(".answer").css('min-height', $(".answer").css('height'));
         }, 400);
         // Hide input area of old selection (Should occur immediatily)
-        $(".answer ." + classOFSelectedBottom).slideUp(0);
+        $(".answer ." + classOfSelectedBottom).slideUp(0);
         // Save class name of new selection
-        classOFSelectedBottom =  $(e.currentTarget).attr('class');
+        classOfSelectedBottom =  $(e.currentTarget).attr('class');
         // Show input area of new selection
-        $(".answer ." + classOFSelectedBottom).slideDown(400);
-        $(".answer ." + classOFSelectedBottom).css('display', 'flex');
+        $(".answer ." + classOfSelectedBottom).slideDown(400);
+        $(".answer ." + classOfSelectedBottom).css('display', 'flex');
         // Remove class 'selected' from the old selection
         $(".middle-bar .selected").removeClass('selected');
         // Add class 'selected' to new selection

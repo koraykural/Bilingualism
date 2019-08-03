@@ -1,6 +1,12 @@
 $(document).ready(function(){
     // Store the state of login-section (false if closed)
     var loginClicked = false;
+    var registerClicked = false;
+
+    if($(".login-section").css('display') == 'block') {
+        loginClicked = true;
+    }
+
     $(".login").click(function(){
         if(!loginClicked) {
             loginClicked = true;
@@ -18,7 +24,8 @@ $(document).ready(function(){
     });
     $(".goto-register").click(function(e){
         e.preventDefault();
-        $(".username").slideDown(200);
+        registerClicked = true;
+        $(".email").slideDown(200);
         $(".password-confirm").slideDown(200);
         $(".goto-register").hide();
         $(".goto-login").show();
@@ -29,7 +36,8 @@ $(document).ready(function(){
 
     $(".goto-login").click(function(e){
         e.preventDefault();
-        $(".username").slideUp(200);
+        registerClicked = false;
+        $(".email").slideUp(200);
         $(".password-confirm").slideUp(200);
         $(".goto-login").hide();
         $(".goto-register").show();
@@ -38,6 +46,27 @@ $(document).ready(function(){
         $(".bottom input[value=REGISTER]").hide();
     });
 
+    $( window ).resize(function() {
+        if($(window).width() > 1064 && !loginClicked) {
+            loginClicked = true;
+            $(".login-section").slideDown(400);
+            $(".login h4").fadeOut(0);
+            $(".login img").fadeIn(200);
+        }
+    });
+
+    $(".login-section").keydown(function(e) {
+        if(e.keyCode == '13') {
+            e.preventDefault();
+            if(registerClicked) {
+                $(".login-section input[name=register]").click();
+            }
+            else {
+                $(".login-section input[name=login]").click();
+            }
+          
+        }
+      });
 
 });
 

@@ -1,0 +1,34 @@
+doctype html
+html(lang=en)
+  include includes/head
+  body
+    include includes/header-menu
+    include includes/menu
+    content
+      .profile
+        .picture
+          - var imageSRC = "./public/images/userPP/" + pictureName
+          img(src=imageSRC, alt="Profile Picture")
+        .name-lang
+          .username
+            if username != ''
+              h2= username
+            else
+              h2 UserUndefined
+          .languages
+            each val, index in languagesArray
+              if val == true
+                - var address = "./public/images/languages/" + index + ".svg"
+                .language
+                  img(src=address, alt="index")
+                  p= index
+        .bio
+          p= bio
+        hr
+        .awards
+          h3 Awards
+          button(disabled) Show All
+          .award
+          .award
+    include includes/settings
+    include includes/footerAtProfile

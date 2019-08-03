@@ -1,4 +1,4 @@
-form.login-section(method="POST" action="/login")
+form.login-section(method="POST")
     .email
         h4 email
         input(type="email" name="email")
@@ -11,10 +11,13 @@ form.login-section(method="POST" action="/login")
     .password-confirm
         h4 confirm password
         input(type="password" name="confpassword")
+    .error
+        unless suc
+            p= msg
     .bottom
-        button.goto-login
+        button(onkeyup="return false;").goto-login
             |Registered?
-        button.goto-register
+        button(onkeyup="return false;").goto-register
             |First time here?
         input(type="submit" name="login" value="LOGIN" formaction="/login")
         input(type="submit" name="register" value="REGISTER" formaction="/register")

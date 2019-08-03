@@ -1,0 +1,62 @@
+.settings(id="settings")
+  form(method="POST")
+  button.pic()
+    h3 Edit Picture
+  button.lang
+    h3 Edit Languages
+  button.bio
+    h3 Edit Biography
+  button(onclick="window.location.href = 'delete';")
+    h3 Delete Account
+
+.settings.edit-profile(id="alter-bio")
+  br
+  h3 Edit Biography
+  form(method="POST")
+    input(type="text" name="bio" maxlength="180")
+    .container
+      button(type="submit" formaction="/alterBio")
+        h3 Submit
+      button.discard(type="button")
+        h3 Discard
+        
+.settings.edit-profile(id="alter-languages")
+  br
+  h3 Edit Languages
+  form(method="POST")
+    .toggle-languages
+      each val, index in languagesArray
+        - var address = "./public/images/languages/" + index + ".svg"
+        if val == true
+          .language
+            input(type="checkbox" name=index id=index checked)
+            label(for=index)
+              img(src=address) 
+              p= index
+        else
+          .language
+            input(type="checkbox" name=index id=index)
+            label(for=index)
+              img(src=address) 
+              p= index
+    .container
+      button(type="submit" formaction="/alterLanguages")
+        h3 Submit
+      button.discard(type="button")
+        h3 Discard
+
+.settings.edit-profile(id="alter-picture")
+  br
+  h3 Edit Picture
+  - var imageSRC = "./public/images/userPP/" + pictureName
+  img(src=imageSRC id="output" width="200" height="200" style="border-radius: 50%;")
+  form(method="POST" action="/alterPicture" enctype="multipart/form-data")
+    input(type="file" accept="image/gif, image/jpeg, image/png" name="picture" id="file" style="display: none;")
+    button(type="button")
+      label(for="file" style="cursor: pointer;")
+        h3 Upload Image
+    .container
+      button(type="submit")
+        h3 Submit
+      button.discard(type="button")
+        h3 Discard

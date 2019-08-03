@@ -1,0 +1,16 @@
+doctype html
+html(lang=en)
+  include includes/head
+  body
+    include includes/header-menu
+    include includes/menu
+    content
+      .post.delete-post
+        h2 Enter password to delete this account PERMENANTLY.
+        br
+        h3 This action is not reversable.
+        form(method="POST")
+          input(type="password" placeholder="Confirm password")
+          button(type="submit" formaction="/deleteAccount")
+            h3 DELETE
+    include includes/footerAtNew
