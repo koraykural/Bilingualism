@@ -30,17 +30,24 @@ module.exports = {
         reject(response);
         return;
       }
-  
-      // Check if password is valid (longer than 5 chars)
-      if(user.password.length < 6) {
-        response.msg = 'Password needs to be 6 or more characthers';
+
+      // Check if username has valid length
+      if(user.username.length < 3) {
+        response.msg = "Username must have more than 3 characthers";
         reject(response);
         return;
       }
-  
-      // Check if username is not so long
-      if(user.username.lenght > 19) {
-        response.msg = "Username should be shorter";
+
+      // Check if username has valid length
+      if(user.username.length > 19) {
+        response.msg = "Username must have less than 19 characthers";
+        reject(response);
+        return;
+      }
+
+      // Check if password is valid (longer than 5 chars)
+      if(user.password.length < 6) {
+        response.msg = 'Password needs to be 6 or more characthers';
         reject(response);
         return;
       }
@@ -111,14 +118,14 @@ module.exports = {
                     return;
                   }
 
-                  // User registered. "DONE" keyword to check in main function
+                  // User registered. Get id to send cookie
                   else {
                     pool.query('SELECT id FROM users WHERE username = $1', [user.username], (err, res) => {
                       response.ID = res.rows[0].id;
-                    });
-                    response.msg = "DONE";
-                    resolve(response);
-                    return;
+                      response.msg = "DONE";
+                      resolve(response);
+                      return;
+                    });      
                   }
                 });
               });    

@@ -1,52 +1,80 @@
 doctype html
 html(lang=en)
   include includes/head
+  script(type="text/javascript" src="./public/js/menu.js")
+  script(type="text/javascript" src="./public/js/newQuestion.js")
   body
     include includes/header-menu
     include includes/menu
     content
-      form.post
+      form.post#new(action="" method="POST")
         .bar.top-bar
           button.text(type="radio")
-            h3 Text
-            img(src="./public/images/create-question-text.png", alt="Text Question")
-          button.audio(type="radio")
-            h3 Audio
-            img(src="./public/images/create-question-audio.png", alt="Audio Question")
-          button.image(type="radio")
-            h3 Image
-            img(src="./public/images/create-question-image.png", alt="Image Question")
+            p.bigtext Text
+            img(src="./public/images/text-question.svg", alt="Text Question")
+          button.audio(type="radio" disabled)
+            p.bigtext Audio
+            img(src="./public/images/audio-question.svg", alt="Audio Question")
+          button.image(type="radio" disabled)
+            p.bigtext Image
+            img(src="./public/images/image-question.svg", alt="Image Question")
         .question
-          input.text(type="text")
+          input.text(type="text" name="question" autocomplete="off" placeholder="Question goes here." maxlength="300")
           input(type="file" id="audioFile" style="display: none;" accept="audio/*")
           input(type="button" class="audio" value="Browse Audio" onclick="document.getElementById('audioFile').click();")
           input(type="file" id="imageFile" style="display: none;" accept="image/*")
           input(type="button" class="image" value="Browse Image" onclick="document.getElementById('imageFile').click();")
         .bar.middle-bar
           button.type
-            h3 Type
-            img(src="./public/images/create-question-type.png", alt="Type Answer")
+            p.bigtext Type
+            img(src="./public/images/type-answer.svg", alt="Type Answer")
           button.two-choice
-            h3 Two Choice
-            img(src="./public/images/create-question-multi-2.png", alt="Two Choice Answer")
+            p.bigtext Two Choice
+            img(src="./public/images/two-choice-answer.svg", alt="Two Choice Answer")
           button.four-choice
-            h3 Four Choice
-            img(src="./public/images/create-question-multi-4.png", alt="Four Choice Answer")
-          button.checkboxes
-            h3 Checkboxes
-            img(src="./public/images/create-question-checkboxes.png", alt="Checkboxes")
+            p.bigtext Four Choice
+            img(src="./public/images/four-choice-answer.svg", alt="Four Choice Answer")
+          button.checkboxes(disabled)
+            p.bigtext Checkboxes
+            img(src="./public/images/checkbox-answer.svg", alt="Checkboxes")
         .answer
-          input.type(type="text" disabled)
+          -var redCheckSRC = "./public/images/red-check.svg";
+          input.type(type="text" placeholder="Users will type their answers." disabled)
           .two-choice
-            input(type="text")
-            input(type="text")
+            .choice1
+              input(type="text" autocomplete="off" maxlength="150")
+              input(type="checkbox" id="check1")
+              label(for="check1")
+                img(src=redCheckSRC id="check1")
+            .choice2
+              input(type="text" autocomplete="off" maxlength="150")
+              input(type="checkbox" id="check2")
+              label(for="check2")
+                img(src=redCheckSRC id="check2")
           .four-choice
-            input(type="text")
-            input(type="text")
-            input(type="text")
-            input(type="text")
+            .choice3
+              input(type="text" autocomplete="off" maxlength="150")
+              input(type="checkbox" id="check3")
+              label(for="check3")
+                img(src=redCheckSRC id="check3")
+            .choice4
+              input(type="text" autocomplete="off" maxlength="150")
+              input(type="checkbox" id="check4")
+              label(for="check4")
+                img(src=redCheckSRC id="check4")
+            .choice5
+              input(type="text" autocomplete="off" maxlength="150")
+              input(type="checkbox" id="check5")
+              label(for="check5")
+                img(src=redCheckSRC id="check5")
+            .choice6
+              input(type="text" autocomplete="off" maxlength="150")
+              input(type="checkbox" id="check6")
+              label(for="check6")
+                img(src=redCheckSRC id="check6")
           .checkboxes
-            input(type="text")
-        button(type="submit")
-          h3 Submit
+            input(type="text" autocomplete="off")
+        p.error= error
+        button(type="button" id="submit")
+          p.bigtext Submit
     include includes/footerAtNew

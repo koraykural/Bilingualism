@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   grid-gap: 0px;
-  scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 body {
   background-color: #f4f4f4 ;
@@ -29,7 +29,12 @@ input[type=submit] {
 }
 input[type=checkbox] {
   display:none;
-  }
+}
+label {
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
 input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
   box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.2);
 }
@@ -59,6 +64,18 @@ hr {
   color: red;
   font-size: 0.8em;
   padding-top: 5px;
+}
+.gianttext {
+  font-size: 1.6em;
+}
+.hugetext {
+  font-size: 1.4em;
+}
+.bigtext {
+  font-size: 1.4em;
+}
+.smalltext {
+  font-size: 0.8em;
 }
 
 
@@ -141,7 +158,7 @@ header {
   height: fit-content;
   width: 100%;
 }
-.login-section h4 {
+.login-section p {
   color: #333333;
   margin: 6px 0;
 }
@@ -205,7 +222,7 @@ content {
   min-height: fit-content;
   margin: 0 auto;
   width: 94.4444vw;
-  padding-top: 9.375vh;
+  padding: 9.375vh 0;
   background: #D0F8FE;
   box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
   display: flex;
@@ -221,13 +238,128 @@ content {
 .post {
   height: fit-content;
   width: 95%;
-  margin: 2.5vh auto;
+  margin: 10px auto;
   background: white;
   border-radius: 30px;
   box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.2);
-  padding: 10px 20px;
+  padding: 10px 10px;
   text-align: center;
 }
+.post .upper-part {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  min-height: 95px;
+}
+
+.question {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+}
+.votes {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 100%;
+}
+.votes button {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.votes .up {
+  color: #2DD221;
+}
+.votes .down {
+  color: #DD1D1D;
+}
+.votes img {
+  width: 20px;
+}
+.votes  p {
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 15px;
+  margin: 5px 0;
+}
+.bottom-bar {
+  margin-top: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.bottom-bar button {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.bottom-bar img {
+  height: 30px;
+  margin-left: 10px;
+}
+.answers {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.answers .multi-choice {
+  width: 100%;
+}
+.answers .type{
+  width: 100%;
+  margin-top: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+.answers input[type=text] {
+  background: #D0F8FE;
+  border-radius: 15px;
+  padding: 10px 15px;
+  margin: 0 5px;
+  width: 100%;
+  font-size: 1em;
+}
+.answers button.submit {
+  width: fit-content;
+}
+.answers button.submit img {
+  margin-left: 2px;
+  width: 25px;
+}
+.answers .multi-choice {
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+.answers .multi-choice button{
+  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2);
+  background: #567BF5;
+  color: white;
+  padding: 10px 30px 10px 20px;
+  margin: 10px auto 5px auto;
+  border-radius: 15px;
+  width: 90%;
+  font-size: 1em;
+}
+
+
+
+
+
+
+
 
 /* CSS For New Question Section */
 .bar {
@@ -243,7 +375,8 @@ content {
   height: 45px;
   width: 45px;
 }
-.bar h3 {
+.bar p {
+  color:white;
   font-size: 0;
   margin: 0;
   opacity: 0;
@@ -252,7 +385,7 @@ content {
   height: 45px;
   min-width: 45px;
   width: fit-content;
-  background: #D0F8FE;
+  background: #567BF5;
   border-radius: 25px;
   margin-right: 15px;
   display: flex;
@@ -266,7 +399,8 @@ button:disabled.selected{
   box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.2); 
 }
 
-.question {
+#new .question {
+  background: none;
   width: 100%;
   min-height: 30px;
   height: fit-content;
@@ -275,10 +409,10 @@ button:disabled.selected{
   justify-content: center;
   transition: min-height 0.3s linear;
 }
-.question > * {
+#new .question > * {
   display: none;
 }
-.question input[type=text] {
+#new .question input[type=text] {
   background: #D0F8FE;
   width: 90%;
   border-radius: 10vw;
@@ -286,7 +420,7 @@ button:disabled.selected{
   margin: 10px auto;
   font-size: 1em;
 }
-.question input[type=button] {
+#new .question input[type=button] {
   background: #567BF5;
   color: white;
   border-radius: 5vw;
@@ -296,7 +430,7 @@ button:disabled.selected{
 }
 
 
-.answer {
+#new .answer {
   width: 100%;
   height: fit-content;
   display: flex;
@@ -304,43 +438,62 @@ button:disabled.selected{
   align-items: center;
   transition: min-height 0.4s linear;
 }
-.answer > * {
+#new .answer > * {
   display: none;
 }
-.answer input {
+#new .answer input {
   background: #D0F8FE;
-  border-radius: 5vw;
-  padding: 5px 20px;
+  border-radius: 15px;
+  padding: 5px 30px 5px 20px;
   margin: 10px auto 5px auto;
   font-size: 1em;
 }
-.answer .type{
-  width: fit-content;
-  padding: 10px 20px;
+#new .answer .type{
+  width: 90%;
+  padding: 10px 20px;  
 }
-.answer .four-choice {
+#new .answer .four-choice {
   flex-flow: row wrap;
   align-items: center;
+  justify-content: center;
 }
-.answer .four-choice input{
-  min-width: 45%;
-  width: fit-content;
+#new .answer .four-choice > div {
+  width: 100%;
+  position: relative;
 }
-.answer .two-choice {
+#new .answer .four-choice input{
+  width: 90%;
+}
+#new .answer .two-choice {
   flex-flow: row wrap;
   align-items: center;
+  justify-content: center;
 }
-.answer .two-choice input{
-  min-width: 50px;
+#new .answer .two-choice > div {
+  width: 100%;
+  position: relative;
 }
-.answer .checkboxes {
-  flex-flow: column nowrap;
-  align-items: center;
+#new .answer .two-choice input{
+  width: 90%;
 }
-.answer .checkboxes input {
-  width: fit-content;
+#new label {
+  position: absolute;
+  bottom: 0px;
+  right: 5%;
+  border-radius: 50%;
 }
-button[type=submit] {
+#new label img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #E9FCFF;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+#new input[value=on]+label img {
+  background: #D0FEDC;
+  box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.4);
+}
+#new button#submit {
   display: block;
   background: #567BF5;
   color: white;
@@ -351,74 +504,91 @@ button[type=submit] {
   font-size: 0.8em;
 }
 
+
+
+
+
+
 .profile {
-  width: 90%;
+  width: 100%;
+}
+.profile .upper-part {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-template-rows: 140px auto 20px auto;
+  grid-template-columns: 120px  minmax(0, 1fr);
+  grid-template-rows: 120px;
 }
 .profile .picture {
   grid-area: 1 / 1 / 2 / 2;
-  height: 100px;
-  width: 100px;
-  margin: auto;
 }
 .profile .picture img {
   height: 100px;
   width: 100px;
+  margin: 10px;
   border-radius: 50%;
 }
 .profile .name-lang {
   grid-area: 1 / 2 / 2 / 3;
-  padding: 20px 0;
+  padding: 5px 0;
 }
 .profile .username {
   color: #333333;
-  margin: 0 0 10px 10px;
+  margin: 0 0 10px 20px;
 }
 .profile .languages {
-  height: fit-content;
-  width: 300px;
+  width: 100%;
+  max-height: fit-content;
   border-radius: 10px;
   display: flex;
   flex-flow: row nowrap;
-  overflow: auto;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  scrollbar-width: none;
+}
+.profile ::-webkit-scrollbar {
+  width: 0px;  /* Remove scrollbar space */
+  height: 2px;
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+.profile ::-webkit-scrollbar-thumb {
+  background: #AAAAAA;
 }
 .profile .language {
   display: inline-flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  width: 70px;
-  margin: 0 10px;
+  min-width: 60px;
+  max-width: 60px;
+  height: 65px;
+  overflow: hidden;
+  margin-right: 5px;
 }
 .profile .language img {
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
   margin: 0 auto;
 }
 .profile .language p {
-  font-size: 0.8em;
   margin: 5px auto;
 }
 .profile .bio {
-  grid-area: 2 / 1 / 3 / 3;
   color: #5c5c5c;
   max-height: 50px;
+  padding: 10px 20px;
 }
 .profile hr {
-  grid-area: 3 / 1 / 4 / 3;
   width: 100%;
   height: 1px;
   background: #999999;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .profile .awards {
-  grid-area: 4 / 1 / 5 / 3;
   height: 300px;
   padding: 10px;
 }
-.profile .awards h3 {
+.profile .awards p {
   display: inline-block;
   color: #333333;
 }
@@ -432,7 +602,7 @@ button[type=submit] {
   bottom: 0;
   width: 94.4444vw;
   margin: 0 2.7778vw;
-  padding: 0 20vw 7.8125vh 20vw;
+  padding: 0 5vw 7.8125vh 5vw;
   background: white;
   box-shadow: 0px -1px 3px -1px rgba(0,0,0,0.2); 
   border-radius: 5px;
@@ -440,7 +610,7 @@ button[type=submit] {
   text-align: center;
 }
 .settings button, .settings input {
-  margin: 20px auto;
+  margin: 15px auto;
   background: #567BF5;
   color: white;
   width: 100%;
@@ -488,16 +658,18 @@ button[type=submit] {
   align-items: center
 }
 .toggle-languages .language {
-  padding: 5px 10px;
+  width: 25%;
+  padding: 5px 0;
 }
-label img{
+.settings label img{
   opacity: 0.2;
   width: 40px;
   height: 40px;
 }
-:checked+label img {
+.settings :checked+label img {
   opacity: 1;
 }
+
 
 
 
@@ -610,12 +782,17 @@ label img{
     align-items: center;
   }
 
+
+
   footer {
     width: 32vw;
     right: 34vw;
     padding: 2vw;
   }
 
+  .profile .name-lang {
+    padding: 10px 0;
+  }
   .settings {
     width: 30vw;
     margin: 0 35vw;

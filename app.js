@@ -4,7 +4,8 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const auth = require('./auth.js');
-const multer  = require('multer')
+const profile = require('./profile.js')
+const multer  = require('multer');
 // Connect to DATABASE
 const Pool = require('pg').Pool
 const pool = new Pool({
@@ -14,12 +15,18 @@ const pool = new Pool({
   password: 'KoraY*123',
   port: 5432,
 })
-//Inıt App
+// Photo Storage
+const storage = multer.diskStorage({
+  destination: './public/images/userPP/'
+});
+const upload = multer({ storage: storage })
+// Inıt App
 const app = express();
-// support parsing of application/json type post data
+// Support parsing of application/json type post data
 app.use(bodyParser.json());
-// support parsing of application/x-www-form-urlencoded post data
-app.use(bodyParser.urlencoded({ extended: true }));
+// Support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.json({limit: '10mb'}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 // cookieParser
 app.use(cookieParser());
 // Use static
@@ -29,177 +36,191 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 // CONSTS
+const PORT = 3000;
 const TWO_HOURS = 2 * 60 * 60 * 1000;
+const log = (param) => { // Short for console.log()
+  console.log(param);
+}
 
-// TODO:  seperate files for profile route also recap
-const getUserData = (userID) => {
-  let user = {
-    name: '',
-    bio: '',
-    pictureName: '0',
-    languages: {}
-  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Insert new Question to DB
+
+const insertQuestion = (userID, question, answerType, answers) => {
   return new Promise((resolve, reject) => {
-    if(userID != null) {
-      // Query for profile page
-      const profileQuery = 'SELECT username, bio, picture, english, turkish, spanish, german, french, italian, russian, chinese, portuguese, arabic, hindi, japanese  FROM users WHERE id = $1'
-      pool.query(profileQuery, [userID], (err, res) => {
+    const now = new Date();
+    if(answerType == 'type') {
+      pool.query('INSERT INTO questions (ownerid, question, date) VALUES($1, $2, $3)',
+        [userID, question, now], (err, res) => {
         if(err) {
-          user.name = 'UndefinedUser';
-          user.bio = '';
-          user.pictureName = '0';
-          reject(user);
+          console.log(err);
+          reject();
+          return;
         }
         else {
-          user.name = res.rows[0].username;
-          user.bio = res.rows[0].bio;
-          user.pictureName = res.rows[0].picture;
-          user.languages.English = res.rows[0].english;
-          user.languages.Turkish = res.rows[0].turkish;
-          user.languages.Spanish = res.rows[0].spanish;
-          user.languages.German = res.rows[0].german;
-          user.languages.French = res.rows[0].french;
-          user.languages.Italian = res.rows[0].italian;
-          user.languages.Russian = res.rows[0].russian;
-          user.languages.Chinese = res.rows[0].chinese;
-          user.languages.Portuguese = res.rows[0].portuguese;
-          user.languages.Arabic = res.rows[0].arabic;
-          user.languages.Hindi = res.rows[0].hindi;
-          user.languages.Japanese = res.rows[0].japanese;
-
-          resolve(user); 
+          resolve();
+          return;
         }
       });
     }
-    else {
-      user.name = 'UndefinedUser';
-      user.bio = '';
-      user.pictureName = '0';
-      reject(user);
+    if(answerType == 'two-choice') {
+      pool.query('INSERT INTO questions (ownerid, question, date, answer1, answer2) VALUES($1, $2, $3, $4, $5)', 
+        [userID, question, now, answers[0], answers[1]], (err, res) => {
+        if(err) {
+          console.log(err);
+          reject();
+          return;
+        }
+        else {
+          resolve();
+          return;
+        }
+      });
     }
-    
+    if(answerType == 'four-choice') {
+      pool.query('INSERT INTO questions (ownerid, question, date, answer1, answer2, answer3, answer4) \
+        VALUES($1, $2, $3, $4, $5, $6, $7)', [userID, question, now, answers[0], answers[1], answers[2], answers[3]], (err, res) => {
+        if(err) {
+          console.log(err);
+          reject();
+          return;
+        }
+        else {
+          resolve();
+          return;
+        }
+      });
+    }
   });
-};
+}
 
-const alterBio = (userID, bio) => {
-  return new Promise((resolve, reject) => {
-    pool.query('UPDATE users SET bio = $1 WHERE id = $2', [bio, userID], (err, res) => {
-      if(err) {
-        reject(err);
-      }
-      else {
-        resolve('Success');
-      }
-    });
-  });
-};
 
-const alterLanguages = (userID, form) => {
-  return new Promise((resolve, reject) => {
-    pool.query('UPDATE users SET english = $2, turkish = $3 , spanish = $4 , german = $5 , french = $6 , italian = $7 , russian = $8 , chinese = $9 , portuguese = $10 , arabic = $11 , hindi = $12 , japanese = $13 WHERE id = $1',
-    [userID, form.English == 'on', form.Turkish == 'on', form.Spanish == 'on', form.German == 'on', form.French == 'on', form.Italian == 'on', form.Russian == 'on', form.Chinese == 'on', form.Portuguese == 'on', form.Arabic == 'on', form.Hindi == 'on', form.Japanese == 'on'], (err, res) => {
-      resolve('Success');
-    });
-  });
-};
 
-const alterPicture = (userID, pictureName) => {
-  return new Promise((resolve, reject) => {
-    pool.query('UPDATE users SET picture = $2 WHERE id = $1',
-    [userID, pictureName], (err, res) => {
-      resolve('Success');
-    });
-  });
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ****************** GET ROUTES ******************
-
 app.get("/", (req, res) => {
-  res.render("index");
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  if(userID) {
+    res.redirect("feed");
+  }
+  else {
+    res.render("index");
+  }
 });
 app.get("/feed", (req, res) => {
-  res.render("feed");
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  if(userID) {
+    res.render("feed");
+  }
+  else {
+    res.redirect("/");
+  }
+});
+app.get("/delete", (req, res) => {
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  if(userID) {
+    res.render("delete");
+  }
+  else {
+    res.redirect("/");
+  }
 });
 app.get("/newQuestion", (req, res) => {
-  res.render("newQuestion");
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  if(userID) {
+    res.render("newQuestion");
+  }
+  else {
+    res.redirect("/");
+  }
 });
 app.get("/profile", (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
 
   const success = (user) => {
-    res.render("profile", {username: user.name, bio: user.bio, languagesArray: user.languages, pictureName: user.pictureName});
+    res.render("profile", {username: user.name, bio: user.bio, 
+      languagesArray: user.languages, pictureName: user.avatarName});
   };
-
-  const fail = (user) => {
+  const fail = () => {
     res.redirect('/');
   };
-  getUserData(userID)
+  profile.getUserData(userID)
     .then(success)
     .catch(fail);
 }); 
-app.get("/delete", (req, res) => {
-  res.render("delete");
-})
 
-/*
-* TODO:
-app.get('/:username', function (req, res, next) {
-    users.get_user(req.params.username, function (err, results) {
-        if(results[0]) {
-            res.render('/profile', {
-                title: 'Profile',
-                userinfo: results[0]
-            });
-        } else {
-            next();
-        }
-    });
-});
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ****************** POST ROUTES ******************
-
-// Register POST
 app.post("/register", async (req, res) => {
+
   const registerData = req.body;
-  // TODO: Seperate files for then and catch functions
-  // Redirect to feed if register is successful
-  const successReg = (response) => {
+
+  const success = (response) => {
     res.cookie('userID', response.ID, {httpOnly: false, maxAge: TWO_HOURS});
     res.redirect('/feed');
   };
-
-  // Redirect to main page with an error if register fails
-  const failReg = (response) => {
+  const fail = (response) => {
     res.render('index', {suc: false, msg: response.msg});
   }
-
-  // Fire register function in the auth module
   auth.register(registerData)
-    .then(successReg)
-    .catch(failReg);
+    .then(success)
+    .catch(fail);
 });
 
-// Login POST
 app.post("/login", async (req, res) => {
   const loginData = req.body;
-  // TODO: Seperate files for then and catch functions
-  // Redirect to feed if login is successful
-  const successLog = (response) => {
+  const success = (response) => {
     res.cookie('userID', response.ID, {httpOnly: false, maxAge: TWO_HOURS});
     res.redirect('/feed');
   };
-
-  //Redirect to main page with an error if login fails
-  const failLog = (response) => {
+  const fail = (response) => {
     res.render('index', {suc: false, msg: response.msg});
   }
-
-  // fire login function in the auth module
   auth.login(loginData)
-    .then(successLog)
-    .catch(failLog);
+    .then(success)
+    .catch(fail);
 });
 
 app.post("/logout", (req, res) => {
@@ -208,62 +229,118 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/alterBio", (req, res) => {
-  // Redirect to profile
-  const redirectProfile = (response) => {
+  const redirectProfile = () => {
     res.redirect('/profile');
   };
-/*
-  // TODO: Redirect to settings with an error
-  const failAlterBio = (response) => {
-    res.redirect('/profile');
-  }
-*/
-  alterBio(req.cookies.userID, req.body.bio)
+  profile.alterBio(req.cookies.userID, req.body.bio)
     .then(redirectProfile)
     .catch(redirectProfile);
 });
 
 app.post("/alterLanguages", (req, res) => {
-  // Redirect to profile
-  const redirectProfile = (response) => {
+  const redirectProfile = () => {
     res.redirect('/profile');
   };
-/*
-  // TODO: Redirect to settings with an error
-  const failAlterBio = (response) => {
-    res.redirect('/profile');
-  }
-*/
-
-  alterLanguages(req.cookies.userID, req.body)
+  profile.alterLanguages(req.cookies.userID, req.body)
     .then(redirectProfile)
     .catch(redirectProfile);
-    
 });
 
-const storage = multer.diskStorage({
-  destination: './public/images/userPP/'
-});
-
-const upload = multer({ storage: storage })
-
-app.post('/alterPicture', upload.single('picture'), function (req, res, next) {
-  // Redirect to profile
-  const redirectProfile = (response) => {
+app.post('/alterPicture', upload.single('avatar'), (req, res) => {
+  const redirectProfile = () => {
     res.redirect('/profile');
   };
-  /*
-    // TODO: Redirect to settings with an error
-    const failAlterBio = (response) => {
-      res.redirect('/profile');
-    }
-  */
-  
-  alterPicture(req.cookies.userID, req.file.filename)
+  profile.alterAvatar(req.cookies.userID, req.file.filename)
     .then(redirectProfile)
     .catch(redirectProfile);
 })
 
-var server = app.listen(3000, function () {
-  console.log("Server has started on port 3000..");
+app.post('/newQuestion', (req, res) => {
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  if(!userID) {
+    res.redirect("/");
+  }
+
+  let errorMsg = "Can't post your question, try again later :(";
+
+  // Promise .then .catch functions
+  const success = () => {
+    res.send();
+  };
+  const fail = () => {
+    res.send(errorMsg);
+  };
+  
+  const form = req.body;
+  
+  // If question filed is empty send error
+  if(!(form.question.trim())){
+    res.send(errorMsg);
+    return;
+  }
+
+  // If answer type is 'type' insert it
+  if(form.answerType == 'type') {
+    insertQuestion(userID, form.question, form.answerType, form.answers)
+      .then(success)
+      .catch(fail);
+  }
+
+  // If answer type is 'two-choice' or 'four-choice' validate inputs
+  // Then concat answer type and correct answer to first question
+  // [2-1]  -> two-choice first choice is correct
+  // [3-2]  -> four-choice second choice is correct
+  else if(form.answerType == 'two-choice') {
+    if(form.answers[0] && form.answers[1]) {
+      if(form.correctAnswer == 1) {
+        form.answers[0] = '[2-1]'.concat(form.answers[0]);
+      }
+      else if(form.correctAnswer == 2) {
+        form.answers[0] = '[2-2]'.concat(form.answers[0]);
+      }
+      else {
+        res.send(errorMsg);
+        return;
+      }
+    }
+    insertQuestion(userID, form.question, form.answerType, form.answers)
+      .then(success)
+      .catch(fail);
+  }
+  else if(form.answerType == 'four-choice') {
+    if(form.answers[0] && form.answers[1] && form.answers[2] && form.answers[3]) {
+      if(form.correctAnswer == 1) {
+        form.answers[0] = '[3-1]'.concat(form.answers[0]);
+      }
+      else if(form.correctAnswer == 2) {
+        form.answers[0] = '[3-2]'.concat(form.answers[0]);
+      }
+      else if(form.correctAnswer == 3) {
+        form.answers[0] = '[3-3]'.concat(form.answers[0]);
+      }
+      else if(form.correctAnswer == 3) {
+        form.answers[0] = '[3-4]'.concat(form.answers[0]);
+      }
+      else {
+        res.send(errorMsg);
+        return;
+      }
+    }
+    insertQuestion(userID, form.question, form.answerType, form.answers)
+      .then(success)
+      .catch(fail);
+  }
+  // If answer type is none of all send error
+  else {
+    res.send(errorMsg);
+    return;
+  }
+
+  
+  
+})
+
+const server = app.listen(PORT, function () {
+  log("Server has started on port 3000..");
 });

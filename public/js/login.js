@@ -11,14 +11,14 @@ $(document).ready(function(){
         if(!loginClicked) {
             loginClicked = true;
             $(".login-section").slideDown(400);
-            $(".login h4").fadeOut(0);
+            $(".login p").fadeOut(0);
             $(".login img").fadeIn(200);
         }
         else {
             loginClicked = false
             $(".login-section").slideUp(400);
             $(".login img").fadeOut(0);
-            $(".login h4").fadeIn(200);
+            $(".login p").fadeIn(200);
         }
         
     });

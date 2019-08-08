@@ -1,28 +1,28 @@
 .settings(id="settings")
   form(method="POST")
-  button.pic()
-    h3 Edit Picture
+  button.pic
+    p.bigtext Edit Picture
   button.lang
-    h3 Edit Languages
+    p.bigtext Edit Languages
   button.bio
-    h3 Edit Biography
+    p.bigtext Edit Biography
   button(onclick="window.location.href = 'delete';")
-    h3 Delete Account
+    p.bigtext Delete Account
 
 .settings.edit-profile(id="alter-bio")
   br
-  h3 Edit Biography
+  p.bigtext Edit Biography
   form(method="POST")
-    input(type="text" name="bio" maxlength="180")
+    input(type="text" name="bio" maxlength="180" autocomplete="off" value=bio)
     .container
       button(type="submit" formaction="/alterBio")
-        h3 Submit
+        p.bigtext Submit
       button.discard(type="button")
-        h3 Discard
+        p.bigtext Discard
         
 .settings.edit-profile(id="alter-languages")
   br
-  h3 Edit Languages
+  p.bigtext Edit Languages
   form(method="POST")
     .toggle-languages
       each val, index in languagesArray
@@ -41,22 +41,23 @@
               p= index
     .container
       button(type="submit" formaction="/alterLanguages")
-        h3 Submit
+        p.bigtext Submit
       button.discard(type="button")
-        h3 Discard
+        p.bigtext Discard
 
 .settings.edit-profile(id="alter-picture")
   br
-  h3 Edit Picture
+  p.bigtext Edit Picture
   - var imageSRC = "./public/images/userPP/" + pictureName
-  img(src=imageSRC id="output" width="200" height="200" style="border-radius: 50%;")
+  img(src=imageSRC id="output" width="200" height="200" style="border-radius: 50%")
+  P Square image is recommended.
   form(method="POST" action="/alterPicture" enctype="multipart/form-data")
-    input(type="file" accept="image/gif, image/jpeg, image/png" name="picture" id="file" style="display: none;")
+    input(type="file" accept="image/gif, image/jpeg, image/png" name="avatar" id="file" style="display: none;")
     button(type="button")
       label(for="file" style="cursor: pointer;")
-        h3 Upload Image
+        p.bigtext Upload Image
     .container
       button(type="submit")
-        h3 Submit
+        p.bigtext Submit
       button.discard(type="button")
-        h3 Discard
+        p.bigtext Discard

@@ -1,4 +1,24 @@
 $(document).ready(function(){
+
+  // SLIDE SHOW FOR LANGUAGES IN PROFILE
+  const langs = $(".languages").get(0);
+  const scrollDistance = 65;
+  const scroller = () => {
+    setInterval(() => {
+      if( (1.5 * scrollDistance) > ((langs.scrollWidth - langs.offsetWidth) - langs.scrollLeft)) {
+        langs.scrollLeft += 2 * scrollDistance;
+        if((langs.scrollLeft + langs.offsetWidth) > (langs.scrollWidth - 1)) {
+          langs.scrollLeft = 0;
+        }
+      }
+      else { 
+        langs.scrollLeft += scrollDistance; 
+      }
+    }, 1200);
+  };
+  scroller();
+
+
   // Save state of menu in a variable (default is closed)
   var isSettingsOpen = false;
   var isBioOpen = false;
@@ -63,16 +83,40 @@ $(document).ready(function(){
     $("#settings").slideUp(300);
   });
 
+
+  // CANVAS AND AVATAR UPLOAD TO SERVER
   $("#file").change(function(){
     readURL(this);
   });
+  // Create new canvas
+  const newCanvas = $('<canvas/>',{
+      id: 'avatarCanvas'                   
+  }).prop({
+      width: 200,
+      height: 200
+    });
+  // Put it after image and hide it
+  $('#output').after(newCanvas);
+  $('#avatarCanvas').css('display', 'none');
+  const canvas = $('#avatarCanvas').get(0);
+  const ctx = canvas.getContext('2d');
+  // New image selected by user
   function readURL(input) {
     if (input.files && input.files[0]) {
-      var reader = new FileReader();   
-      reader.onload = function (e) {
-        $('#output').attr('src', e.target.result);
-      }
+      const reader = new FileReader();   
       reader.readAsDataURL(input.files[0]);
+      reader.onload = (event) => {
+        // Create new image object and put it into the canvas
+        const newImage = new Image();
+        newImage.src = event.target.result;       
+        newImage.onload = () => {
+          $('#output').css('display', 'none');
+          $('#avatarCanvas').css('display', 'block');
+          $('#avatarCanvas').css('margin', 'auto');
+          $('#avatarCanvas').css('border-radius', '50%');
+          ctx.drawImage(newImage,0,0,200,200);
+        }
+      }
     }
   }
 });
