@@ -218,8 +218,8 @@ footer img {
 }
 
 content {
-  height: 100vh;
-  min-height: fit-content;
+  min-height: 100vh;
+  height: fit-content;
   margin: 0 auto;
   width: 94.4444vw;
   padding: 9.375vh 0;
@@ -228,12 +228,16 @@ content {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  overflow: hidden;
+  overflow: auto;
 }
 /* 
 
 
 */
+
+
+
+
 
 .post {
   height: fit-content;
@@ -280,13 +284,13 @@ content {
   color: #DD1D1D;
 }
 .votes img {
-  width: 20px;
+  width: 16px;
 }
 .votes  p {
   font-weight: bold;
-  font-size: 15px;
-  line-height: 15px;
-  margin: 5px 0;
+  font-size: 14px;
+  line-height: 14px;
+  margin: 3px 0;
 }
 .bottom-bar {
   margin-top: 5px;
@@ -301,10 +305,6 @@ content {
   justify-content: space-between;
   align-items: center;
 }
-.bottom-bar img {
-  height: 30px;
-  margin-left: 10px;
-}
 .answers {
   width: 100%;
   height: fit-content;
@@ -312,7 +312,7 @@ content {
   justify-content: center;
   align-items: center;
 }
-.answers .multi-choice {
+.answers .multi {
   width: 100%;
 }
 .answers .type{
@@ -338,12 +338,12 @@ content {
   margin-left: 2px;
   width: 25px;
 }
-.answers .multi-choice {
+.answers .multi {
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
 }
-.answers .multi-choice button{
+.answers .multi button{
   box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2);
   background: #567BF5;
   color: white;
@@ -353,6 +353,20 @@ content {
   width: 90%;
   font-size: 1em;
 }
+.answers .multi button.orange{
+  box-shadow: 2px 4px 7px 0px rgba(0,0,0,0.3);
+  background: #FA8D20;
+}
+.answers .multi button.red{
+  box-shadow: 2px 4px 7px 0px rgba(0,0,0,0.3);
+  background: #DD1D1D;
+}
+.answers .multi button.green{
+  box-shadow: 2px 4px 7px 0px rgba(0,0,0,0.3);
+  background: #2DD221;
+}
+
+
 
 
 
@@ -509,6 +523,11 @@ button:disabled.selected{
 
 
 
+
+
+
+
+
 .profile {
   width: 100%;
 }
@@ -597,6 +616,8 @@ button:disabled.selected{
   margin: 5px 20px 0 0;
 }
 
+
+
 .settings {
   position: fixed;
   bottom: 0;
@@ -645,7 +666,10 @@ button:disabled.selected{
 }
 .delete-post button[type=submit] {
   min-width: auto;
-  padding: 10px 20px;
+  padding: 10px 30px;
+  color: white;
+  background: #567BF5;
+  border-radius: 20px;
 }
 
 #alter-languages {
@@ -681,10 +705,26 @@ button:disabled.selected{
 
 
 
+
+
+
+
+
+
+
+
+
 @media only screen and (min-width: 600px) {
   /* For tablets: */
 
 }
+
+
+
+
+
+
+
 
 
 
@@ -766,7 +806,6 @@ button:disabled.selected{
   .menu-section li:nth-child(even) {
     display: none;
   }
-  
 
   content {
     height: 100vh;
@@ -781,8 +820,6 @@ button:disabled.selected{
     flex-flow: column nowrap;
     align-items: center;
   }
-
-
 
   footer {
     width: 32vw;

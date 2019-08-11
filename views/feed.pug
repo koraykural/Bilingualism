@@ -2,10 +2,13 @@ doctype html
 html(lang=en)
   include includes/head
   script(type="text/javascript" src="./public/js/menu.js")
+  script(type="text/javascript" src="./public/js/feed.js")
+  script(type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js")
   body
     include includes/header-menu
     include includes/menu
     content
-      include includes/question
-      include includes/question2
+      include includes/type-template
+      include includes/multi2-template
+      include includes/multi4-template
     include includes/footerAtHome

@@ -1,0 +1,24 @@
+template.type
+  .post(id="q{id}")
+    .upper-part
+      .question 
+        p.bigtext {question}
+      .votes
+        button.up
+          img(src="./public/images/up-arrow.svg")
+          p {upvotes}
+        button.down
+          p {downvotes}
+          img(src="./public/images/down-arrow.svg")
+    .answers
+      form.type
+        input(type="text" name="comment")
+        button.submit(type="button")
+          img(src="./public/images/send-button.png")
+    .bottom-bar
+      button
+        p Save
+      button
+        p Answers
+      button
+        p {username}

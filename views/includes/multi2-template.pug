@@ -1,0 +1,25 @@
+template.multi2
+  .post(id="q{id}")
+    .upper-part
+      .question
+        p.bigtext {question}
+      .votes
+        button.up
+          img(src="./public/images/up-arrow.svg")
+          p {upvotes}
+        button.down
+          p {downvotes}
+          img(src="./public/images/down-arrow.svg")
+    .answers
+      .multi
+        button#a1
+          p {answer1}
+        button#a2
+          p {answer2}
+    .bottom-bar
+      button
+        p Save
+      button
+        p Discussion
+      button
+        p {username}

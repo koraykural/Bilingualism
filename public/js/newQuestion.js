@@ -168,8 +168,8 @@ $(document).ready(function(){
 
 // -----------------------------------AJAX REQUEST-----------------------------------
 
-	// --------------------GET INFO--------------------
 	$("#submit").click((e) => {
+	// --------------------GET INFO--------------------
 		// Question => question
 		let question = $(".question input.text").val();
 
@@ -196,7 +196,7 @@ $(document).ready(function(){
 			correctAnswer = correctAnswer.charAt(5);
 		}
 
-		// ----------VALIDATION AND ERROR MESSAGE----------
+	// ----------VALIDATION AND ERROR MESSAGE----------
 		const errorP = $("#new .error");
 		// Validate question
 		question = question.trim();
