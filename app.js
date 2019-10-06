@@ -2,10 +2,12 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require('body-parser');
+const multer  = require('multer');
 const cookieParser = require('cookie-parser');
+// Custom Modules
 const auth = require('./auth.js');
 const profile = require('./profile.js')
-const multer  = require('multer');
+const question = require('./question.js')
 // Connect to DATABASE
 const Pool = require('pg').Pool
 const pool = new Pool({
@@ -41,107 +43,8 @@ const TWO_HOURS = 2 * 60 * 60 * 1000;
 const log = (param) => { // Short for console.log()
   console.log(param);
 }
-
-
-
-
-
-
-
-
-
-
-const getUserName = userID => {
-  return new Promise((resolve, reject) => {
-    pool.query('SELECT username FROM users WHERE id = $1', [userID], (err,res) => {
-      if(err) {
-        console.log(err);
-        reject();
-        return;
-      }
-      else {
-        resolve(res.rows[0].username);
-        return;
-      }
-    })
-  })
-}
-
-
-
-// Insert new Question to DB
-
-const insertQuestion = (userID, question, answerType, answers, correctAnswer) => {
-  return new Promise( async (resolve, reject) => {
-    const ownername = await getUserName(userID);
-    const now = new Date();
-    if(answerType == 'type') {
-        pool.query('INSERT INTO questions (ownerid, question, date, ownername) VALUES($1, $2, $3, $4)',
-        [userID, question, now, ownername], (err, res) => {
-        if(err) {
-          console.log(err);
-          reject();
-          return;
-        }
-        else {
-          resolve();
-          return;
-        }
-      })
-    }
-    if(answerType == 'two-choice') {
-      pool.query('INSERT INTO questions (ownerid, question, date, answer1, answer2, answertype, correctanswer, ownername) VALUES($1, $2, $3, $4, $5, $6, $7, $8)', 
-        [userID, question, now, answers[0], answers[1], true, correctAnswer, ownername], (err, res) => {
-        if(err) {  
-          console.log(err);
-          reject();
-          return;
-        }
-        else {
-          resolve();
-          return;
-        }
-      });
-    }
-    if(answerType == 'four-choice') {
-      pool.query('INSERT INTO questions (ownerid, question, date, answer1, answer2, answer3, answer4, answertype, correctanswer, ownername) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)', [userID, question, now, answers[0], answers[1], answers[2], answers[3], true, correctAnswer, ownername], (err, res) => {
-        if(err) {
-          console.log(err);
-          reject();
-          return;
-        }
-        else {
-          resolve();
-          return;
-        }
-      });
-    }
-  });
-}
-
-
-
-
-const getQuestions = () => {
-  return new Promise((resolve, reject) => {
-    pool.query('SELECT id, ownerid, upvotes, downvotes, question, answer1, answer2, answer3, answer4, answertype, correctanswer, comments, date, ownername FROM questions ORDER BY date DESC LIMIT 5', (err, res) => {
-      if(err) {
-        reject(err);
-        return;
-      } 
-      else {
-        resolve(res.rows);
-        return;
-      }
-    });
-  })
-}
-
-
-
-
-
-
+// TODO: Change this to user depended later
+const dark = true;
 
 
 
@@ -167,7 +70,12 @@ app.get("/feed", (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
   if(userID) {
-    res.render("feed");
+    if(dark) {
+      res.render("feed-dark");
+    }
+    else {
+      res.render("feed");
+    }
   }
   else {
     res.redirect("/");
@@ -177,7 +85,12 @@ app.get("/delete", (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
   if(userID) {
-    res.render("delete");
+    if(dark) {
+      res.render("delete-dark");
+    }
+    else {
+      res.render("delete");
+    }
   }
   else {
     res.redirect("/");
@@ -187,6 +100,12 @@ app.get("/newQuestion", (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
   if(userID) {
+    if(dark) {
+      res.render("newQuestion-dark");
+    }
+    else {
+      res.render("newQuestion");
+    }
     res.render("newQuestion");
   }
   else {
@@ -198,17 +117,31 @@ app.get("/profile", (req, res) => {
   const userID = req.cookies.userID;
 
   const success = (user) => {
-    res.render("profile", {username: user.name, bio: user.bio, 
-      languagesArray: user.languages, pictureName: user.avatarName});
+    if(dark) {
+      res.render("profile-dark", {username: user.name, bio: user.bio, 
+        languagesArray: user.languages, pictureName: user.avatarName});
+    }
+    else {
+      res.render("profile", {username: user.name, bio: user.bio, 
+        languagesArray: user.languages, pictureName: user.avatarName});
+    }
   };
   const fail = () => {
     res.redirect('/');
   };
+
   profile.getUserData(userID)
     .then(success)
     .catch(fail);
 }); 
-
+app.get("/about", (req, res) => {
+  if(dark) {
+    res.render("about-dark");
+  }
+  else {
+    res.render("about");
+  }
+});
 
 
 
@@ -224,7 +157,9 @@ app.get("/profile", (req, res) => {
 
 
 // ****************** POST ROUTES ******************
-app.post("/register", async (req, res) => {
+
+// Auth Routes
+app.post("/register", (req, res) => {
 
   const registerData = req.body;
 
@@ -240,8 +175,10 @@ app.post("/register", async (req, res) => {
     .catch(fail);
 });
 
-app.post("/login", async (req, res) => {
+app.post("/login", (req, res) => {
+
   const loginData = req.body;
+
   const success = (response) => {
     res.cookie('userID', response.ID, {httpOnly: false, maxAge: TWO_HOURS});
     res.redirect('/feed');
@@ -249,6 +186,7 @@ app.post("/login", async (req, res) => {
   const fail = (response) => {
     res.render('index', {suc: false, msg: response.msg});
   }
+  
   auth.login(loginData)
     .then(success)
     .catch(fail);
@@ -259,6 +197,14 @@ app.post("/logout", (req, res) => {
   res.redirect("/");
 });
 
+
+
+
+
+
+
+
+// Profile Routes
 app.post("/alterBio", (req, res) => {
   const redirectProfile = () => {
     res.redirect('/profile');
@@ -286,104 +232,177 @@ app.post('/alterPicture', upload.single('avatar'), (req, res) => {
     .catch(redirectProfile);
 });
 
+// Check if User And QuestionID matches
+app.post('/askAuth', (req, res) => {
+  const userID = req.cookies.userID;
+  const questionID = req.body.questionID;
+
+  // Promise .then .catch functions
+  const success = (response) => {
+    res.send(response[0].exists)
+  };
+  const fail = (response) => {
+    res.send(response[0].exists)
+  };
+
+  auth.checkUser(questionID, userID)
+    .then(success)
+    .catch(fail);
+})
+
+
+
+
+
+
+
+// Question routes
 app.post('/newQuestion', (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
+  // Redirect if there is no cookie
   if(!userID) {
     res.redirect("/");
   }
 
-  let errorMsg = "Can't post your question, try again later :(";
+  // New question form fields
+  const form = req.body;
 
   // Promise .then .catch functions
   const success = () => {
     res.send();
   };
   const fail = () => {
-    res.send(errorMsg);
+    res.send("Can't post your question, try again later :(");
   };
   
-  const form = req.body;
-  
-  // If question filed is empty send error
-  if(!(form.question.trim())){
-    res.send(errorMsg);
-    return;
-  }
-
-  // If answer type is 'type' insert it
-  if(form.answerType == 'type') {
-    insertQuestion(userID, form.question, form.answerType, form.answers)
-      .then(success)
-      .catch(fail);
-  }
-
-  // If answer type is 'two-choice' or 'four-choice' validate inputs
-  else if(form.answerType == 'two-choice') {
-    if(!form.answers[0] && !form.answers[1]) {
-      log('here1');
-      res.send(errorMsg);
-      return;
-    }
-    if(form.correctAnswer != 1 && form.correctAnswer != 2) {
-      res.send(errorMsg);
-      return;
-    }
-    insertQuestion(userID, form.question, form.answerType, form.answers, form.correctAnswer)
-      .then(success)
-      .catch(fail);
-  }
-  else if(form.answerType == 'four-choice') {
-    if(!form.answers[0] && !form.answers[1] && !form.answers[2] && !form.answers[3]) {
-      res.send(errorMsg);
-      return;
-    }
-    if(form.correctAnswer != 1 && form.correctAnswer != 2 && form.correctAnswer != 3 && form.correctAnswer != 4) {
-      res.send(errorMsg);
-      return;
-    }
-    insertQuestion(userID, form.question, form.answerType, form.answers, form.correctAnswer)
-      .then(success)
-      .catch(fail);
-  }
-  // If answer type is none of all send error
-  else {
-    res.send(errorMsg);
-    return;
-  }
-});
-// New post routes
-// Vote, Send Question, Get Answer, Send Comments
-app.post('/getAnswer', (err,res) => {
-  const userID = req.cookies.userID;
-  const questionID = req.body.questionID;
-  const answerType = req.body.answerType;
-  const answer = req.body.answer;
-
-});
-
-app.post('/voteQuestion', (err,res) => {
-  const userID = req.cookies.userID;
-
-});
-
-app.post('/sendQuestion', (err,res) => {
-  const success = (questions) => {
-    res.send(questions);
-  };
-  const fail = () => {
-    res.send('fail');
-  };
-  
-  getQuestions()
+  question.newQuestion(userID, form)
     .then(success)
     .catch(fail);
 });
 
-app.post('/sendComments', (err,res) => {
+app.post('/serveQuestion', (req,res) => {
+
   const userID = req.cookies.userID;
 
+  const success = (questions) => {
+    if(questions.length) {
+      res.send(questions);
+    }
+    else{
+      res.send(false);
+    }
+  };
+  const fail = () => {
+    res.send(false);
+  };
+  
+  question.serveQuestions(userID)
+    .then(success)
+    .catch(fail);
 });
+
+app.post('/deleteSeenData', (req,res) => {
+
+  const userID = req.cookies.userID;
+
+  const success = (questions) => {
+    if(questions.length) {
+      res.send(questions);
+    }
+    else{
+      res.send(false);
+    }
+  };
+  const fail = () => {
+    res.send(false);
+  };
+
+  question.deleteSeenData(userID)
+    .then(success)
+    .catch(fail);
+})
+
+app.post('/getAnswer', (req,res) => {
+  const userID = req.cookies.userID;
+  const questionID = req.body.questionID;
+  const answerType = req.body.answerType;
+  const answer = req.body.userAnswer;
+
+  const success = (correctAnswer) => {
+    res.send(correctAnswer);
+  };
+  const fail = (error) => {
+    res.send(error);
+  };
+
+  question.answer(userID, questionID, answerType, answer)
+  .then(success)
+  .catch(fail);
+});
+
+app.post('/voteQuestion', (req,res) => {
+  const userID = req.cookies.userID;
+  const questionID = req.body.questionID;
+  const action = req.body.action;
+
+  const success = () => {
+    res.send(true);
+  };
+  const fail = () => {
+    res.send(false);
+  };
+  
+  question.vote(userID, questionID, action)
+    .then(success)
+    .catch(fail);
+});
+
+app.post('/serveComments', (req,res) => {
+  const questionID = req.body.questionID;
+
+  const success = (comments) => {
+    res.send(comments);
+  };
+  const fail = () => {
+    res.send(false);
+  };
+
+  question.serveComments(questionID)
+    .then(success)
+    .catch(fail);
+});
+
+app.post('/deleteQuestion', (req,res) => {
+  const userID = req.cookies.userID;
+  const questionID = req.body.questionID;
+
+  // Promise .then .catch functions
+  const success = () => {
+    question.deleteQuestion(questionID);
+    res.send(true)
+  };
+  const fail = () => {
+    res.send(false)
+  };
+
+  auth.checkUser(questionID, userID)
+    .then(success)
+    .catch(fail);
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const server = app.listen(PORT, function () {
   log("Server has started on port 3000..");

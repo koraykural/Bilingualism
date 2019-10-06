@@ -1,0 +1,8 @@
+<svg id="checkbox-answer" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="Layer_1" data-name="Layer 1">
+    <circle id="Ellipse_17" data-name="Ellipse 17" cx="25" cy="25" r="25" fill="#29495f"/>
+    <rect id="Rectangle_6" data-name="Rectangle 6" width="29" height="9" rx="4.05" transform="translate(10.5 20.5)" fill="#c7c7c7"/>
+    <rect id="Rectangle_7" data-name="Rectangle 7" width="29" height="9" rx="4.06" transform="translate(10.5 32.5)" fill="#c7c7c7"/>
+    <rect id="Rectangle_8" data-name="Rectangle 8" width="29" height="9" rx="4.05" transform="translate(10.5 8.5)" fill="#c7c7c7"/>
+  </g>
+</svg>

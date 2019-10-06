@@ -12,18 +12,18 @@ template.multi4
           img(src="./public/images/down-arrow.svg")
     .answers
       .multi
-        button#a1
-          p {answer1}
-        button#a2
-          p {answer2}
-        button#a3
-          p {answer3}
-        button#a4
-          p {answer4}
+        button.blueButton#a1
+          p.bigtext {answer1}
+        button.blueButton#a2
+          p.bigtext {answer2}
+        button.blueButton#a3
+          p.bigtext {answer3}
+        button.blueButton#a4
+          p.bigtext {answer4}
     .bottom-bar
       button
         p Save
-      button
-        p Discussion
+      button.comments
+        p Discussion ({numComments})
       button
         p {username}

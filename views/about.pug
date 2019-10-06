@@ -2,12 +2,13 @@ doctype html
 html(lang=en)
   include includes/head
   script(type="text/javascript" src="./public/js/menu.js")
-  script(type="text/javascript" src="./public/js/feed.js")
   body
-    include includes/type-template
-    include includes/multi2-template
-    include includes/multi4-template
     include includes/header-menu
     include includes/menu
+    .post
+      p.bigtext This page is useless.
+      p But looks cool on menu.
+      button.blueButton(onclick="javascript:location.href='/feed'")
+        p Turn back to feed
     content
     include includes/footer

@@ -3,21 +3,21 @@ html(lang=en)
   include includes/head
   script(type="text/javascript" src="./public/js/menu.js")
   script(type="text/javascript" src="./public/js/newQuestion.js")
-  body
-    include includes/header-menu
+  body.dark
+    include includes/header-menu-dark
     include includes/menu
     content
     form.post#new(action="" method="POST")
       .bar.top-bar
         button.text(type="radio")
           p.bigtext Text
-          img(src="./public/images/text-question.svg", alt="Text Question")
+          img(src="./public/images/dark/text-question.svg", alt="Text Question")
         button.audio(type="radio" disabled)
           p.bigtext Audio
-          img(src="./public/images/audio-question.svg", alt="Audio Question")
+          img(src="./public/images/dark/audio-question.svg", alt="Audio Question")
         button.image(type="radio" disabled)
           p.bigtext Image
-          img(src="./public/images/image-question.svg", alt="Image Question")
+          img(src="./public/images/dark/image-question.svg", alt="Image Question")
       .question
         input.text(type="text" name="question" autocomplete="off" placeholder="Question goes here." maxlength="300")
         input(type="file" id="audioFile" style="display: none;" accept="audio/*")
@@ -27,18 +27,18 @@ html(lang=en)
       .bar.middle-bar
         button.type
           p.bigtext Type
-          img(src="./public/images/type-answer.svg", alt="Type Answer")
+          img(src="./public/images/dark/type-answer.svg", alt="Type Answer")
         button.two-choice
           p.bigtext Two Choice
-          img(src="./public/images/two-choice-answer.svg", alt="Two Choice Answer")
+          img(src="./public/images/dark/two-choice-answer.svg", alt="Two Choice Answer")
         button.four-choice
           p.bigtext Four Choice
-          img(src="./public/images/four-choice-answer.svg", alt="Four Choice Answer")
+          img(src="./public/images/dark/four-choice-answer.svg", alt="Four Choice Answer")
         button.checkboxes(disabled)
           p.bigtext Checkboxes
-          img(src="./public/images/checkbox-answer.svg", alt="Checkboxes")
+          img(src="./public/images/dark/checkbox-answer.svg", alt="Checkboxes")
       .answer
-        -var redCheckSRC = "./public/images/red-check.svg";
+        -var redCheckSRC = "./public/images/dark/red-check.svg";
         input.type(type="text" placeholder="Users will type their answers." disabled)
         .two-choice
           .choice1
@@ -77,4 +77,4 @@ html(lang=en)
       p.error= error
       button(type="button" id="submit")
         p.bigtext Submit
-    include includes/footer
+    include includes/footer-dark

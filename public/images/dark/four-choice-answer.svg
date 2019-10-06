@@ -1,0 +1,9 @@
+<svg id="four-choice-answer" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="Layer_1" data-name="Layer 1">
+    <circle id="Ellipse_18" data-name="Ellipse 18" cx="25" cy="25" r="25" fill="#29495f"/>
+    <rect id="Rectangle_9" data-name="Rectangle 9" width="20" height="9.17" rx="4.01" transform="translate(4 14.42)" fill="#c7c7c7"/>
+    <rect id="Rectangle_10" data-name="Rectangle 10" width="20" height="9.17" rx="4.01" transform="translate(26 14.42)" fill="#c7c7c7"/>
+    <rect id="Rectangle_11" data-name="Rectangle 11" width="20" height="9.17" rx="4.01" transform="translate(4 27.27)" fill="#c7c7c7"/>
+    <rect id="Rectangle_12" data-name="Rectangle 12" width="20" height="9.17" rx="4.01" transform="translate(26 27.27)" fill="#c7c7c7"/>
+  </g>
+</svg>

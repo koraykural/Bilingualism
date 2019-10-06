@@ -1,12 +1,12 @@
 .settings(id="settings")
   form(method="POST")
-  button.pic
+  button.blueButton.pic
     p.bigtext Edit Picture
-  button.lang
+  button.blueButton.lang
     p.bigtext Edit Languages
-  button.bio
+  button.blueButton.bio
     p.bigtext Edit Biography
-  button(onclick="window.location.href = 'delete';")
+  button.blueButton.discard(onclick="window.location.href = 'delete';")
     p.bigtext Delete Account
 
 .settings.edit-profile(id="alter-bio")
@@ -15,9 +15,9 @@
   form(method="POST")
     input(type="text" name="bio" maxlength="180" autocomplete="off" value=bio)
     .container
-      button(type="submit" formaction="/alterBio")
+      button.blueButton.submit(type="submit" formaction="/alterBio")
         p.bigtext Submit
-      button.discard(type="button")
+      button.blueButton.discard(type="button")
         p.bigtext Discard
         
 .settings.edit-profile(id="alter-languages")
@@ -40,9 +40,9 @@
               img(src=address) 
               p= index
     .container
-      button(type="submit" formaction="/alterLanguages")
+      button.blueButton.submit(type="submit" formaction="/alterLanguages")
         p.bigtext Submit
-      button.discard(type="button")
+      button.blueButton.discard(type="button")
         p.bigtext Discard
 
 .settings.edit-profile(id="alter-picture")
@@ -53,11 +53,11 @@
   P Square image is recommended.
   form(method="POST" action="/alterPicture" enctype="multipart/form-data")
     input(type="file" accept="image/gif, image/jpeg, image/png" name="avatar" id="file" style="display: none;")
-    button(type="button")
+    button.blueButton(type="button")
       label(for="file" style="cursor: pointer;")
         p.bigtext Upload Image
     .container
-      button(type="submit")
+      button.blueButton.submit(type="submit")
         p.bigtext Submit
-      button.discard(type="button")
+      button.blueButton.discard(type="button")
         p.bigtext Discard

@@ -1,0 +1,14 @@
+doctype html
+html(lang=en)
+  include includes/head
+  script(type="text/javascript" src="./public/js/menu.js")
+  body.dark
+    include includes/header-menu-dark
+    include includes/menu
+    .post
+      p.bigtext This page is useless,
+      p but looks cool on menu.
+      button.blueButton(onclick="javascript:location.href='/feed'")
+        p Turn back to feed
+    content
+    include includes/footer-dark

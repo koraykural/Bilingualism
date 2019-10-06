@@ -183,5 +183,18 @@ module.exports = {
         }
       });
     })
+  },
+
+  checkUser: function(questionID, userID) {
+    return new Promise((resolve,reject) => {
+      pool.query('SELECT EXISTS(SELECT 1 FROM questions WHERE id = $1 AND ownerid = $2)', [questionID, userID], (err, res) => {
+        if(err) {
+          reject(err);
+          return;
+        }
+        resolve(res.rows) // Boolean
+        return;
+      })
+    })
   }
 };

@@ -3,8 +3,8 @@ html(lang=en)
   include includes/head
   script(type="text/javascript" src="./public/js/menu.js")
   script(type="text/javascript" src="./public/js/settings.js")
-  body
-    include includes/header-menu
+  body.dark
+    include includes/header-menu-dark
     include includes/menu
     content
     .profile
@@ -28,4 +28,4 @@ html(lang=en)
       .bio
         p= bio
     include includes/settings
-    include includes/footer-profile
+    include includes/footer-profile-dark

@@ -142,10 +142,19 @@ $(document).ready(function(){
 		$(e.currentTarget).addClass('selected');
 		
 		// Remove all 'correct answer checks'
-		for(let i = 0; i < 6; i++) {
-			$(".answer label > img").attr('src', redCheckSRC);
-			$(".answer input[type=checkbox]").val("off");
+		if($('body').hasClass('dark')) {
+			for(let i = 0; i < 6; i++) {
+				$(".answer label > img").attr('src', darkRedCheckSRC);
+				$(".answer input[type=checkbox]").val("off");
+			}
 		}
+		else {
+			for(let i = 0; i < 6; i++) {
+				$(".answer label > img").attr('src', redCheckSRC);
+				$(".answer input[type=checkbox]").val("off");
+			}
+		}
+
 	});
 
 
@@ -153,14 +162,28 @@ $(document).ready(function(){
 	// CheckMark for MultiChoice answers
 	const redCheckSRC = "./public/images/red-check.svg";
 	const greenCheckSRC = "./public/images/green-check.svg";
+	const darkRedCheckSRC = "./public/images/dark/red-check.svg";
+	const darkGreenCheckSRC = "./public/images/dark/green-check.svg";
 	$(".answer input[type=checkbox]").change((e) => {
-		for(let i = 0; i < 6; i++) {
-			$(".answer label > img").attr('src', redCheckSRC);
-			$(".answer input[type=checkbox]").val("off");
+		if($('body').hasClass('dark')) {
+			for(let i = 0; i < 6; i++) {
+				$(".answer label > img").attr('src', darkRedCheckSRC);
+				$(".answer input[type=checkbox]").val("off");
+			}
+			const clickedElementId = e.target.id;
+			$(".answer label > img#" + clickedElementId).attr('src', darkGreenCheckSRC);
+			$(".answer input[type=checkbox]#" + clickedElementId).val("on");
 		}
-		const clickedElementId = e.target.id;
-		$(".answer label > img#" + clickedElementId).attr('src', greenCheckSRC);
-		$(".answer input[type=checkbox]#" + clickedElementId).val("on");
+		else {
+			for(let i = 0; i < 6; i++) {
+				$(".answer label > img").attr('src', redCheckSRC);
+				$(".answer input[type=checkbox]").val("off");
+			}
+			const clickedElementId = e.target.id;
+			$(".answer label > img#" + clickedElementId).attr('src', greenCheckSRC);
+			$(".answer input[type=checkbox]#" + clickedElementId).val("on");
+		}
+
 	})
 
 
@@ -258,13 +281,6 @@ $(document).ready(function(){
 				}
 			}, errorP.text('Hang on...'));
 		}
-
-
-
 	});
-
-
-
-
 });
 
