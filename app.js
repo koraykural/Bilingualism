@@ -38,7 +38,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 // CONSTS
-const PORT = 3000;
+const PORT = process.env.PORT;
 const TWO_HOURS = 2 * 60 * 60 * 1000;
 const log = (param) => { // Short for console.log()
   console.log(param);
