@@ -11,11 +11,8 @@ const question = require('./question.js')
 // Connect to DATABASE
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'bilingualism',
-  password: 'KoraY*123',
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
 })
 // Photo Storage
 const storage = multer.diskStorage({

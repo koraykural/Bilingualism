@@ -1,9 +1,9 @@
 // IMPORTS
 // Connect to DataBase
 const { Pool, Client } = require('pg');
-const connectionString = 'postgresql://postgres:KoraY*123@localhost:5432/bilingualism';
 const pool = new Pool({
-  connectionString: connectionString,
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
 });
 
 const log = (param) => {
