@@ -16,6 +16,9 @@
   "bugs": {
     "url": "https://github.com/koraykural/BilingualsWorld/issues"
   },
+  "engines": {
+    "node": "10.x"
+  },
   "homepage": "https://github.com/koraykural/BilingualsWorld#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
