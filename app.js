@@ -149,6 +149,23 @@ app.get("/newQuestion", async (req, res) => {
     res.redirect("/");
   }
 });
+app.get('/profile', (req,res) => {
+    // Get userID from cookie
+    const userID = req.cookies.userID;
+    let username;
+  
+    const success = (res) => {
+      username = res;
+      res.redirect('/profile/' + username);
+    };
+    const fail = (res) => {
+      res.redirect("/");
+    };
+  
+    await auth.getUsernameFromID(userID)
+      .then(success)
+      .catch(fail);
+})
 app.get("/profile/:username", async (req,res) => {
   const username = req.params.username;
   const userID = await auth.getIdFromUsername(username);
