@@ -258,7 +258,7 @@ app.post("/logout", (req, res) => {
 // Profile Routes
 app.post("/alterBio", (req, res) => {
   const redirectProfile = () => {
-    res.redirect('/profile');
+    res.redirect('/feed');
   };
   profile.alterBio(req.cookies.userID, req.body.bio)
     .then(redirectProfile)
@@ -267,7 +267,7 @@ app.post("/alterBio", (req, res) => {
 
 app.post("/alterLanguages", (req, res) => {
   const redirectProfile = () => {
-    res.redirect('/profile');
+    res.redirect('/feed');
   };
   profile.alterLanguages(req.cookies.userID, req.body)
     .then(redirectProfile)
@@ -275,12 +275,15 @@ app.post("/alterLanguages", (req, res) => {
 });
 
 app.post('/alterPicture', upload.single('avatar'), (req, res) => {
+  res.redirect('/feed');
+  /*
   const redirectProfile = () => {
-    res.redirect('/profile');
+    res.redirect('/feed');
   };
   profile.alterAvatar(req.cookies.userID, req.file.filename)
     .then(redirectProfile)
     .catch(redirectProfile);
+    */
 });
 
 // Check if User And QuestionID matches
