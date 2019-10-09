@@ -5,21 +5,21 @@ template.type
         p.bigtext {question}
       .votes
         button.up
-          img(src="./public/images/up-arrow.svg")
+          img(src="/images/up-arrow.svg")
           p {upvotes}
         button.down
           p {downvotes}
-          img(src="./public/images/down-arrow.svg")
+          img(src="/images/down-arrow.svg")
     .answers
       form.type
         input(type="text" name="comment")
         button.submit(type="button")
-          img(src="./public/images/dark/send.svg")
+          img(src="/images/dark/send.svg")
     .bottom-bar
       .actions-list
         button.actions
-          img(src="./public/images/dark/question-menu.svg")
+          img(src="/images/dark/question-menu.svg")
       button.comments
         p Answers ({numComments})
-      button
+      a.ownerProfile
         p {username}

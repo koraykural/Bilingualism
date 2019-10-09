@@ -160,10 +160,10 @@ $(document).ready(function(){
 
 
 	// CheckMark for MultiChoice answers
-	const redCheckSRC = "./public/images/red-check.svg";
-	const greenCheckSRC = "./public/images/green-check.svg";
-	const darkRedCheckSRC = "./public/images/dark/red-check.svg";
-	const darkGreenCheckSRC = "./public/images/dark/green-check.svg";
+	const redCheckSRC = "/images/red-check.svg";
+	const greenCheckSRC = "/images/green-check.svg";
+	const darkRedCheckSRC = "/images/dark/red-check.svg";
+	const darkGreenCheckSRC = "/images/dark/green-check.svg";
 	$(".answer input[type=checkbox]").change((e) => {
 		if($('body').hasClass('dark')) {
 			for(let i = 0; i < 6; i++) {

@@ -78,28 +78,14 @@ module.exports = {
   },
 
   alterAvatar: (userID, avatarName) => {
+    /*
     return new Promise((resolve, reject) => {
       pool.query('UPDATE users SET picture = $2 WHERE id = $1',
       [userID, avatarName], (err, res) => {
         resolve('Success');
       });
     });
+    */
+   return 'success';
   }
 }
-
-
-/*
-* TODO:
-app.get('/:username', function (req, res, next) {
-    users.get_user(req.params.username, function (err, results) {
-        if(results[0]) {
-            res.render('/profile', {
-                title: 'Profile',
-                userinfo: results[0]
-            });
-        } else {
-            next();
-        }
-    });
-});
-*/

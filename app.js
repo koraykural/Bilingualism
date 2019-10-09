@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 // cookieParser
 app.use(cookieParser());
 // Use static
-app.use(express.static(__dirname + '/'));
+app.use(express.static(path.join(__dirname, 'public')));
 // Load View Engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -66,56 +66,95 @@ app.get("/", (req, res) => {
     res.render("index");
   }
 });
-app.get("/feed", (req, res) => {
+app.get("/feed", async (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
-  if(userID) {
-    if(dark) {
-      res.render("feed-dark");
-    }
-    else {
-      res.render("feed");
-    }
-  }
-  else {
-    res.redirect("/");
-  }
-});
-app.get("/delete", (req, res) => {
-  // Get userID from cookie
-  const userID = req.cookies.userID;
-  if(userID) {
-    if(dark) {
-      res.render("delete-dark");
-    }
-    else {
-      res.render("delete");
-    }
-  }
-  else {
-    res.redirect("/");
-  }
-});
-app.get("/newQuestion", (req, res) => {
-  // Get userID from cookie
-  const userID = req.cookies.userID;
-  if(userID) {
-    if(dark) {
-      res.render("newQuestion-dark");
-    }
-    else {
-      res.render("newQuestion");
-    }
-    res.render("newQuestion");
-  }
-  else {
-    res.redirect("/");
-  }
-});
-app.get("/profile", (req, res) => {
-  // Get userID from cookie
-  const userID = req.cookies.userID;
+  let username;
 
+  const success = (res) => {
+    username = res;
+  };
+  const fail = (res) => {
+    res.redirect("/");
+  };
+
+  await auth.getUsernameFromID(userID)
+    .then(success)
+    .catch(fail);
+
+  if(userID) {
+    if(dark) {
+      res.render("feed-dark", {username: username});
+    }
+    else {
+      res.render("feed", {username:username});
+    }
+  }
+  else {
+    res.redirect("/");
+  }
+});
+
+app.get("/delete", async (req, res) => {
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  let username;
+
+  const success = (res) => {
+    username = res;
+  };
+  const fail = (res) => {
+    res.redirect("/");
+  };
+
+  await auth.getUsernameFromID(userID)
+    .then(success)
+    .catch(fail);
+
+  if(userID) {
+    if(dark) {
+      res.render("delete-dark", {username:username});
+    }
+    else {
+      res.render("delete", {username:username});
+    }
+  }
+  else {
+    res.redirect("/");
+  }
+});
+
+app.get("/newQuestion", async (req, res) => {
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  let username;
+
+  const success = (res) => {
+    username = res;
+  };
+  const fail = (res) => {
+    res.redirect("/");
+  };
+
+  await auth.getUsernameFromID(userID)
+    .then(success)
+    .catch(fail);
+
+  if(userID) {
+    if(dark) {
+      res.render("newQuestion-dark", {username:username});
+    }
+    else {
+      res.render("newQuestion", {username:username});
+    }
+  }
+  else {
+    res.redirect("/");
+  }
+});
+app.get("/profile/:username", async (req,res) => {
+  const username = req.params.username;
+  const userID = await auth.getIdFromUsername(username);
   const success = (user) => {
     if(dark) {
       res.render("profile-dark", {username: user.name, bio: user.bio, 
@@ -133,13 +172,28 @@ app.get("/profile", (req, res) => {
   profile.getUserData(userID)
     .then(success)
     .catch(fail);
-}); 
-app.get("/about", (req, res) => {
+});
+app.get("/about", async (req, res) => {
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  let username;
+
+  const success = (res) => {
+    username = res;
+  };
+  const fail = (res) => {
+    res.redirect("/");
+  };
+
+  await auth.getUsernameFromID(userID)
+    .then(success)
+    .catch(fail);
+  
   if(dark) {
-    res.render("about-dark");
+    res.render("about-dark", {username:username});
   }
   else {
-    res.render("about");
+    res.render("about", {username:username});
   }
 });
 

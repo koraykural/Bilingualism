@@ -196,5 +196,30 @@ module.exports = {
         return;
       })
     })
+  },
+
+  getIdFromUsername: (username) => {
+    return new Promise((resolve,reject) => {
+      pool.query('SELECT id FROM users WHERE username = $1 LIMIT 1', [username], (err,res) =>  {
+        if(err) {
+          reject(err);
+          console.log(err);
+          return;
+        }
+        resolve(res.rows[0].id);
+      })
+    })
+  },
+
+  getUsernameFromID: (userID) => {
+    return new Promise((resolve,reject) => {
+      pool.query('SELECT username FROM users WHERE id = $1 LIMIT 1', [userID], (err,res) =>  {
+        if(err) {
+          reject(err);
+          return;
+        }
+        resolve(res.rows[0].username);
+      })
+    })
   }
 };

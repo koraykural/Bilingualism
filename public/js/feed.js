@@ -53,13 +53,13 @@ $(document).ready(() => {
 
       if(element.userVote == true) {
         $(upButton).addClass('voted');
-        $(upButton).find('img').attr('src', './public/images/up-voted.svg');
+        $(upButton).find('img').attr('src', '/images/up-voted.svg');
         $(upButton).find('p').css('color', '#2DD221');
 
       }
       else if(element.userVote == false) {
         $(downButton).addClass('voted');
-        $(downButton).find('img').attr('src', './public/images/down-voted.svg');
+        $(downButton).find('img').attr('src', '/images/down-voted.svg');
         $(downButton).find('p').css('color', '#DD1D1D');
       }
 
@@ -69,6 +69,10 @@ $(document).ready(() => {
       const answerType = element.answertype; // true-multi/null-type
       const previousChoice = thisQuestion.find('#a' + previousAnswer);
       const correctChoice = thisQuestion.find('#a' + correctAnswer);
+      
+      // Add link to the owner of the page
+      const ownername = element.ownername;
+      thisQuestion.find('a.ownerProfile').attr('href', 'profile/' + ownername);
 
       if(previousAnswer) {
         if(answerType) { // Multi Choice
@@ -474,11 +478,11 @@ $(document).ready(() => {
       $(e.currentTarget).find('p').text(voteCount);
       $(e.currentTarget).removeClass('voted');
       if($(e.currentTarget).attr('class') == 'up') {
-        $(e.currentTarget).find('img').attr('src', './public/images/up-arrow.svg');
+        $(e.currentTarget).find('img').attr('src', '/images/up-arrow.svg');
         $(e.currentTarget).find('p').css('color', '#A1BF9F');
       }
       else if($(e.currentTarget).attr('class') == 'down') {
-        $(e.currentTarget).find('img').attr('src', './public/images/down-arrow.svg');
+        $(e.currentTarget).find('img').attr('src', '/images/down-arrow.svg');
         $(e.currentTarget).find('p').css('color', '#DB8989');
       }
     }
@@ -486,14 +490,14 @@ $(document).ready(() => {
 
     // If user clicked upvote first time
     if(vote == 'up') {
-      $(e.currentTarget).find('img').attr('src', './public/images/up-voted.svg');
+      $(e.currentTarget).find('img').attr('src', '/images/up-voted.svg');
       $(e.currentTarget).find('p').css('color', '#2DD221');
       $(e.currentTarget).addClass('voted');
       voteCount += 1;
       $(e.currentTarget).find('p').text(voteCount);
       if(formerVote) {
         $(e.currentTarget.nextSibling).removeClass('voted');
-        $(e.currentTarget.nextSibling).find('img').attr('src', './public/images/down-arrow.svg');
+        $(e.currentTarget.nextSibling).find('img').attr('src', '/images/down-arrow.svg');
         $(e.currentTarget.nextSibling).find('p').css('color', '#DB8989');
         let formerVoteCount = parseInt($(e.currentTarget.nextSibling).find('p').text());
         formerVoteCount -= 1;
@@ -503,13 +507,13 @@ $(document).ready(() => {
     }
     else if(vote == 'down') {
       $(e.currentTarget).find('p').css('color', '#DD1D1D');
-      $(e.currentTarget).find('img').attr('src', './public/images/down-voted.svg');
+      $(e.currentTarget).find('img').attr('src', '/images/down-voted.svg');
       $(e.currentTarget).addClass('voted');
       voteCount += 1;
       $(e.currentTarget).find('p').text(voteCount);
       if(formerVote) {
         $(e.currentTarget.previousSibling).removeClass('voted');
-        $(e.currentTarget.previousSibling).find('img').attr('src', './public/images/up-arrow.svg');
+        $(e.currentTarget.previousSibling).find('img').attr('src', '/images/up-arrow.svg');
         $(e.currentTarget.previousSibling).find('p').css('color', '#A1BF9F');
         let formerVoteCount = parseInt($(e.currentTarget.previousSibling).find('p').text());
         formerVoteCount -= 1;

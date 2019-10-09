@@ -26,7 +26,7 @@
   form(method="POST")
     .toggle-languages
       each val, index in languagesArray
-        - var address = "./public/images/languages/" + index + ".svg"
+        - var address = "/images/languages/" + index + ".svg"
         if val == true
           .language
             input(type="checkbox" name=index id=index checked)
@@ -48,7 +48,7 @@
 .settings.edit-profile(id="alter-picture")
   br
   p.bigtext Edit Picture
-  - var imageSRC = "./public/images/userPP/" + pictureName
+  - var imageSRC = "/images/userPP/" + pictureName
   img(src=imageSRC id="output" width="200" height="200" style="border-radius: 50%")
   P Square image is recommended.
   form(method="POST" action="/alterPicture" enctype="multipart/form-data")

@@ -5,11 +5,11 @@ template.multi2
         p.bigtext {question}
       .votes
         button.up
-          img(src="./public/images/up-arrow.svg")
+          img(src="/images/up-arrow.svg")
           p {upvotes}
         button.down
           p {downvotes}
-          img(src="./public/images/down-arrow.svg")
+          img(src="/images/down-arrow.svg")
     .answers
       .multi
         button.blueButton#a1
@@ -19,8 +19,8 @@ template.multi2
     .bottom-bar
       .actions-list
         button.actions
-          img(src="./public/images/dark/question-menu.svg")
+          img(src="/images/dark/question-menu.svg")
       button.comments
         p Discussion ({numComments})
-      button
+      a.ownerProfile
         p {username}

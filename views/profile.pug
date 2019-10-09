@@ -1,8 +1,8 @@
 doctype html
 html(lang=en)
   include includes/head
-  script(type="text/javascript" src="./public/js/menu.js")
-  script(type="text/javascript" src="./public/js/settings.js")
+  script(type="text/javascript" src="/js/menu.js")
+  script(type="text/javascript" src="/js/settings.js")
   body
     include includes/header-menu
     include includes/menu
@@ -10,7 +10,7 @@ html(lang=en)
     .profile
       .upper-part
         .picture
-          - var imageSRC = "./public/images/userPP/" + pictureName
+          - var imageSRC = "/images/userPP/" + pictureName
           img(src=imageSRC, alt="Profile Picture")
         .name-lang
           .username
@@ -21,7 +21,7 @@ html(lang=en)
           .languages
             each val, index in languagesArray
               if val == true
-                - var address = "./public/images/languages/" + index + ".svg"
+                - var address = "/images/languages/" + index + ".svg"
                 .language
                   img(src=address, alt="index")
                   p.smalltext= index

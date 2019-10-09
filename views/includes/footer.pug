@@ -1,7 +1,8 @@
 footer
   a(href="feed")
-    img(src="./public/images/home.svg", alt="home")
+    img(src="/images/home.svg", alt="home")
   a(href="newQuestion")
-    img(src="./public/images/new.svg", alt="create question")
-  a(href="profile")
-    img(src="./public/images/profile.svg", alt="profile")
+    img(src="/images/new.svg", alt="create question")
+  -var profileLink = "profile/" + username
+  a(href=profileLink)
+    img(src="/images/profile.svg", alt="profile")

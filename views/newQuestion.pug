@@ -1,8 +1,8 @@
 doctype html
 html(lang=en)
   include includes/head
-  script(type="text/javascript" src="./public/js/menu.js")
-  script(type="text/javascript" src="./public/js/newQuestion.js")
+  script(type="text/javascript" src="./js/menu.js")
+  script(type="text/javascript" src="./js/newQuestion.js")
   body
     include includes/header-menu
     include includes/menu
@@ -11,13 +11,13 @@ html(lang=en)
       .bar.top-bar
         button.text(type="radio")
           p.bigtext Text
-          img(src="./public/images/text-question.svg", alt="Text Question")
+          img(src="./images/text-question.svg", alt="Text Question")
         button.audio(type="radio" disabled)
           p.bigtext Audio
-          img(src="./public/images/audio-question.svg", alt="Audio Question")
+          img(src="./images/audio-question.svg", alt="Audio Question")
         button.image(type="radio" disabled)
           p.bigtext Image
-          img(src="./public/images/image-question.svg", alt="Image Question")
+          img(src="./images/image-question.svg", alt="Image Question")
       .question
         input.text(type="text" name="question" autocomplete="off" placeholder="Question goes here." maxlength="300")
         input(type="file" id="audioFile" style="display: none;" accept="audio/*")
@@ -27,18 +27,18 @@ html(lang=en)
       .bar.middle-bar
         button.type
           p.bigtext Type
-          img(src="./public/images/type-answer.svg", alt="Type Answer")
+          img(src="./images/type-answer.svg", alt="Type Answer")
         button.two-choice
           p.bigtext Two Choice
-          img(src="./public/images/two-choice-answer.svg", alt="Two Choice Answer")
+          img(src="./images/two-choice-answer.svg", alt="Two Choice Answer")
         button.four-choice
           p.bigtext Four Choice
-          img(src="./public/images/four-choice-answer.svg", alt="Four Choice Answer")
+          img(src="./images/four-choice-answer.svg", alt="Four Choice Answer")
         button.checkboxes(disabled)
           p.bigtext Checkboxes
-          img(src="./public/images/checkbox-answer.svg", alt="Checkboxes")
+          img(src="./images/checkbox-answer.svg", alt="Checkboxes")
       .answer
-        -var redCheckSRC = "./public/images/red-check.svg";
+        -var redCheckSRC = "./images/red-check.svg";
         input.type(type="text" placeholder="Users will type their answers." disabled)
         .two-choice
           .choice1
