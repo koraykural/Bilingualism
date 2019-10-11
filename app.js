@@ -68,6 +68,7 @@ app.get("/feed", async (req, res) => {
   const userID = req.cookies.userID;
   if(!userID) {
     res.redirect("/");
+    return;
   }
   let username;
 
@@ -100,6 +101,7 @@ app.get("/delete", async (req, res) => {
   const userID = req.cookies.userID;
   if(!userID) {
     res.redirect("/");
+    return;
   }
   let username;
 
@@ -132,6 +134,7 @@ app.get("/newQuestion", async (req, res) => {
   const userID = req.cookies.userID;
   if(!userID) {
     res.redirect("/");
+    return;
   }
   let username;
 
@@ -162,6 +165,7 @@ app.get("/profile/:username", async (req,res) => {
   const username = req.params.username;
   if(!username) {
     res.redirect("/");
+    return;
   }
   const userID = await auth.getIdFromUsername(username);
   const success = (user) => {
@@ -187,6 +191,7 @@ app.get("/about", async (req, res) => {
   const userID = req.cookies.userID;
   if(!userID) {
     res.redirect("/");
+    return;
   }
   let username;
 
