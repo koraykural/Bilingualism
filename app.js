@@ -66,6 +66,9 @@ app.get("/", (req, res) => {
 app.get("/feed", async (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
+  if(!userID) {
+    res.redirect("/");
+  }
   let username;
 
   const success = (res) => {
@@ -95,6 +98,9 @@ app.get("/feed", async (req, res) => {
 app.get("/delete", async (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
+  if(!userID) {
+    res.redirect("/");
+  }
   let username;
 
   const success = (res) => {
@@ -124,6 +130,9 @@ app.get("/delete", async (req, res) => {
 app.get("/newQuestion", async (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
+  if(!userID) {
+    res.redirect("/");
+  }
   let username;
 
   const success = (res) => {
@@ -151,6 +160,9 @@ app.get("/newQuestion", async (req, res) => {
 });
 app.get("/profile/:username", async (req,res) => {
   const username = req.params.username;
+  if(!username) {
+    res.redirect("/");
+  }
   const userID = await auth.getIdFromUsername(username);
   const success = (user) => {
     if(dark) {
@@ -173,6 +185,9 @@ app.get("/profile/:username", async (req,res) => {
 app.get("/about", async (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
+  if(!userID) {
+    res.redirect("/");
+  }
   let username;
 
   const success = (res) => {
