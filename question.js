@@ -143,10 +143,6 @@ const updateSeen = (userID, questions) => {
       if(question){
         pool.query('INSERT INTO seen (questionid, userid) VALUES($1, $2)', [userID, question]);
       }
-      else {
-        break;
-      }
-
       resolve(true);
     }); 
   });
