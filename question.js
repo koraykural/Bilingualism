@@ -139,16 +139,16 @@ const newQuestion = (userID, form) => {
 
 const updateSeen = (userID, questions) => {
   return new Promise((resolve, reject) => {
-    pool.query('INSERT INTO seen (questionid, userid) VALUES($2,$1),($3,$1),($4,$1),($5,$1),($6,$1)', [userID, questions[0], questions[1], questions[2], questions[3], questions[4]], (err, res) => {
-      if(err) {
-        reject(err);
-        return;
-      } 
-      else {
-        resolve('Success');
-        return;
+    questions.forEach(question => {
+      if(question){
+        pool.query('INSERT INTO seen (questionid, userid) VALUES($1, $2)', [userID, question]);
       }
-    });
+      else {
+        break;
+      }
+
+      resolve(true);
+    }); 
   });
 };
 
