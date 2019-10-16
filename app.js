@@ -479,5 +479,5 @@ app.post('/deleteQuestion', (req,res) => {
 
 
 const server = app.listen(PORT, function () {
-  log("Server has started on port 3000..");
+  log("Server has started on port: " + PORT);
 });
