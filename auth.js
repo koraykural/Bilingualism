@@ -206,7 +206,12 @@ module.exports = {
           console.log(err);
           return;
         }
-        resolve(res.rows[0].id);
+        if(res.rows) {
+          resolve(res.rows[0].id);
+        }
+        else {
+          reject(null);
+        }
       })
     })
   },
