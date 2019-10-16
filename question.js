@@ -141,7 +141,12 @@ const updateSeen = (userID, questions) => {
   return new Promise((resolve, reject) => {
     questions.forEach(question => {
       if(question){
-        pool.query('INSERT INTO seen (questionid, userid) VALUES($1, $2)', [userID, question]);
+        pool.query('INSERT INTO seen (userid, questionid) VALUES($1, $2)', [userID, question], (err, res) => {
+          if(err) {
+            reject(err);
+            return;
+          }
+        });
       }
       resolve(true);
     }); 
