@@ -4,10 +4,20 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10; // Seed for bcrypt
 // Connect to DataBase
 const { Pool, Client } = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-});
+const ONLINE = false;
+let pool;
+if(ONLINE) {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  })
+}
+else {
+  pool = new Pool({
+    connectionString: "postgres://rhhjyuoqlwawsm:518f7fdc7028267f17c83c3e2b88bde4a4130238c492fc4197df3c0bc3bb8f8b@ec2-46-137-113-157.eu-west-1.compute.amazonaws.com:5432/d167rldb35k6r8",
+    ssl: true
+  })
+}
 
 
 
@@ -137,9 +147,8 @@ module.exports = {
   },
 
 
-  login: function(user) {
+  login: (user) => {
     return new Promise ((resolve, reject) => {
-
       let response = {
         msg: '',
         ID: '0'
@@ -147,7 +156,6 @@ module.exports = {
 
       pool.query('SELECT password FROM users WHERE username = $1'
         , [user.username], (err, res) => {
-
         // Database error
         if(err) {
           console.log(err)
@@ -155,7 +163,6 @@ module.exports = {
           reject(response);
           return;
         }
-
         // No matching username
         else if(res.rows == 0) {
           response.msg = 'User not found';

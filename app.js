@@ -6,14 +6,25 @@ const multer  = require('multer');
 const cookieParser = require('cookie-parser');
 // Custom Modules
 const auth = require('./auth.js');
-const profile = require('./profile.js')
-const question = require('./question.js')
+const profile = require('./profile.js');
+const question = require('./question.js');
 // Connect to DATABASE
-const Pool = require('pg').Pool
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-})
+const Pool = require('pg').Pool;
+const ONLINE = false;
+let pool;
+if(ONLINE) {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  })
+}
+else {
+  pool = new Pool({
+    connectionString: "postgres://rhhjyuoqlwawsm:518f7fdc7028267f17c83c3e2b88bde4a4130238c492fc4197df3c0bc3bb8f8b@ec2-46-137-113-157.eu-west-1.compute.amazonaws.com:5432/d167rldb35k6r8",
+    ssl: true
+  })
+}
+
 // Photo Storage
 const storage = multer.diskStorage({
   destination: './public/images/userPP/'
@@ -35,7 +46,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 // CONSTS
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const TWO_HOURS = 2 * 60 * 60 * 1000;
 const log = (param) => { // Short for console.log()
   console.log(param);
@@ -161,6 +172,30 @@ app.get("/newQuestion", async (req, res) => {
     res.redirect("/");
   }
 });
+app.get("/profile", async (req, res) => {
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  if(!userID) {
+    res.redirect("/");
+    return;
+  }
+  let username;
+
+  const success = (res) => {
+    username = res;
+    console.log("redirecting to: /profile/" + username);
+    res.redirect("/profile/" + username);
+  };
+  const fail = (res) => {
+    res.redirect("/");
+  };
+
+  await auth.getUsernameFromID(userID)
+    .then(success)
+    .catch(fail);
+
+
+})
 app.get("/profile/:username", async (req,res) => {
   const username = req.params.username;
   if(!username) {

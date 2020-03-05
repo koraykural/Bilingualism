@@ -1,9 +1,19 @@
 // Connect to DATABASE
-const Pool = require('pg').Pool
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-})
+const Pool = require('pg').Pool;
+const ONLINE = false;
+let pool;
+if(ONLINE) {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
+  })
+}
+else {
+  pool = new Pool({
+    connectionString: "postgres://rhhjyuoqlwawsm:518f7fdc7028267f17c83c3e2b88bde4a4130238c492fc4197df3c0bc3bb8f8b@ec2-46-137-113-157.eu-west-1.compute.amazonaws.com:5432/d167rldb35k6r8",
+    ssl: true
+  })
+}
 
 module.exports = {
 
