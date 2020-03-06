@@ -10,26 +10,11 @@ const profile = require('./profile.js');
 const question = require('./question.js');
 // Connect to DATABASE
 const Pool = require('pg').Pool;
-const ONLINE = false;
-let pool;
-if(ONLINE) {
-  pool = new Pool({
+const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: true
   })
-}
-else {
-  pool = new Pool({
-    connectionString: "postgres://rhhjyuoqlwawsm:518f7fdc7028267f17c83c3e2b88bde4a4130238c492fc4197df3c0bc3bb8f8b@ec2-46-137-113-157.eu-west-1.compute.amazonaws.com:5432/d167rldb35k6r8",
-    ssl: true
-  })
-}
 
-// Photo Storage
-const storage = multer.diskStorage({
-  destination: './public/images/userPP/'
-});
-const upload = multer({ storage: storage })
 // Inıt App
 const app = express();
 // Support parsing of application/json type post data
@@ -53,10 +38,6 @@ const log = (param) => { // Short for console.log()
 }
 // TODO: Change this to user depended later
 const dark = true;
-
-
-
-
 
 
 
@@ -106,7 +87,6 @@ app.get("/feed", async (req, res) => {
     res.redirect("/");
   }
 });
-
 app.get("/delete", async (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
@@ -139,7 +119,6 @@ app.get("/delete", async (req, res) => {
     res.redirect("/");
   }
 });
-
 app.get("/newQuestion", async (req, res) => {
   // Get userID from cookie
   const userID = req.cookies.userID;
@@ -197,27 +176,46 @@ app.get("/profile", async (req, res) => {
 
 })
 app.get("/profile/:username", async (req,res) => {
+  // Get userID from cookie
+  const userID = req.cookies.userID;
+  if(!userID) {
+    res.redirect("/");
+    return;
+  }
+
   const username = req.params.username;
   if(!username) {
     res.redirect("/");
     return;
   }
-  const userID = await auth.getIdFromUsername(username);
+  const pageUserID = await auth.getIdFromUsername(username);
   const success = (user) => {
-    if(dark) {
-      res.render("profile-dark", {username: user.name, bio: user.bio, 
-        languagesArray: user.languages, pictureName: user.avatarName});
+    if(userID == user.id) {
+      if(dark) {
+        res.render("profile-dark-own", {username: user.name, bio: user.bio, 
+          languagesArray: user.languages, pictureName: user.avatarName});
+      }
+      else {
+        res.render("profile-own", {username: user.name, bio: user.bio, 
+          languagesArray: user.languages, pictureName: user.avatarName});
+      }
     }
     else {
-      res.render("profile", {username: user.name, bio: user.bio, 
-        languagesArray: user.languages, pictureName: user.avatarName});
+      if(dark) {
+        res.render("profile-dark", {username: user.name, bio: user.bio, 
+          languagesArray: user.languages, pictureName: user.avatarName});
+      }
+      else {
+        res.render("profile", {username: user.name, bio: user.bio, 
+          languagesArray: user.languages, pictureName: user.avatarName});
+      }
     }
   };
   const fail = () => {
     res.redirect('/');
   };
 
-  profile.getUserData(userID)
+  profile.getUserData(pageUserID)
     .then(success)
     .catch(fail);
 });
@@ -253,17 +251,7 @@ app.get("/about", async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
 // ****************** POST ROUTES ******************
-
 // Auth Routes
 app.post("/register", (req, res) => {
 
@@ -280,7 +268,6 @@ app.post("/register", (req, res) => {
     .then(success)
     .catch(fail);
 });
-
 app.post("/login", (req, res) => {
 
   const loginData = req.body;
@@ -297,17 +284,10 @@ app.post("/login", (req, res) => {
     .then(success)
     .catch(fail);
 });
-
 app.post("/logout", (req, res) => {
   res.clearCookie('userID');
   res.redirect("/");
 });
-
-
-
-
-
-
 
 
 // Profile Routes
@@ -319,7 +299,6 @@ app.post("/alterBio", (req, res) => {
     .then(redirectProfile)
     .catch(redirectProfile);
 });
-
 app.post("/alterLanguages", (req, res) => {
   const redirectProfile = () => {
     res.redirect('/feed');
@@ -328,8 +307,7 @@ app.post("/alterLanguages", (req, res) => {
     .then(redirectProfile)
     .catch(redirectProfile);
 });
-
-app.post('/alterPicture', upload.single('avatar'), (req, res) => {
+app.post('/alterPicture', (req, res) => {
   res.redirect('/feed');
   /*
   const redirectProfile = () => {
@@ -340,7 +318,6 @@ app.post('/alterPicture', upload.single('avatar'), (req, res) => {
     .catch(redirectProfile);
     */
 });
-
 // Check if User And QuestionID matches
 app.post('/askAuth', (req, res) => {
   const userID = req.cookies.userID;
@@ -358,11 +335,6 @@ app.post('/askAuth', (req, res) => {
     .then(success)
     .catch(fail);
 })
-
-
-
-
-
 
 
 // Question routes
@@ -389,7 +361,6 @@ app.post('/newQuestion', (req, res) => {
     .then(success)
     .catch(fail);
 });
-
 app.post('/serveQuestion', (req,res) => {
 
   const userID = req.cookies.userID;
@@ -410,7 +381,6 @@ app.post('/serveQuestion', (req,res) => {
     .then(success)
     .catch(fail);
 });
-
 app.post('/deleteSeenData', (req,res) => {
 
   const userID = req.cookies.userID;
@@ -431,7 +401,6 @@ app.post('/deleteSeenData', (req,res) => {
     .then(success)
     .catch(fail);
 })
-
 app.post('/getAnswer', (req,res) => {
   const userID = req.cookies.userID;
   const questionID = req.body.questionID;
@@ -449,7 +418,6 @@ app.post('/getAnswer', (req,res) => {
   .then(success)
   .catch(fail);
 });
-
 app.post('/voteQuestion', (req,res) => {
   const userID = req.cookies.userID;
   const questionID = req.body.questionID;
@@ -466,7 +434,6 @@ app.post('/voteQuestion', (req,res) => {
     .then(success)
     .catch(fail);
 });
-
 app.post('/serveComments', (req,res) => {
   const questionID = req.body.questionID;
 
@@ -481,7 +448,6 @@ app.post('/serveComments', (req,res) => {
     .then(success)
     .catch(fail);
 });
-
 app.post('/deleteQuestion', (req,res) => {
   const userID = req.cookies.userID;
   const questionID = req.body.questionID;
@@ -499,16 +465,6 @@ app.post('/deleteQuestion', (req,res) => {
     .then(success)
     .catch(fail);
 })
-
-
-
-
-
-
-
-
-
-
 
 
 
